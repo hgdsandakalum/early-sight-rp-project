@@ -1,3 +1,3 @@
-export default function DashboardLayout({children}) {
+export default function LoginLayout({children}) {
     return <section>{children}</section>
   }
