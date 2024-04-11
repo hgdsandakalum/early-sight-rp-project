@@ -1,15 +1,10 @@
-import Head from 'next/head';
+'use client';
+
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export default function Page() {
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
-      </Head>
-
       <main>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
