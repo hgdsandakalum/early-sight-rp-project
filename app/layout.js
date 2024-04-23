@@ -20,8 +20,8 @@ function RootLayout({ children }) {
     
     return (
       <html lang="en" className="h-full bg-white">
-        <body  className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+        <body  className={ cn(
+          "min-h-screen h-full bg-background font-sans antialiased",
           fontSans.variable
         )}>
           {children}

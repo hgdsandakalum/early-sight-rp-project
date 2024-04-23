@@ -1,3 +1,3 @@
 export default function LoginLayout({children}) {
-    return <section>{children}</section>
-  }
+    return <section className="!h-full flex flex-col">{children}</section>
+}
