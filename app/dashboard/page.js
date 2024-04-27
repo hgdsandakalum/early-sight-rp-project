@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import { options } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth/next";
+// import { options } from "../api/auth/[...nextauth]/options";
+// import { getServerSession } from "next-auth/next";
 import CardDataStats from "./_components/CardDataStats";
 import ChartOne from "./_components/Charts/ChartOne";
 import ChartThree from "./_components/Charts/ChartThree";
@@ -9,10 +9,10 @@ import UserCard from "./_components/UserCard";
 import RecordTable from "./_components/Charts/RecordTable";
 
 const DashboardPage = () => {
-  const buttonRef = useRef(null);
-  const session = getServerSession(options);
+  // const buttonRef = useRef(null);
+  // const session = getServerSession(options);
 
-  console.log(session);
+  // console.log(session);
 
   return (
     <>
@@ -122,14 +122,14 @@ const DashboardPage = () => {
           </svg>
         </CardDataStats>
       </div>
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
+      {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
         <ChartOne />
         <UserCard />
         <div className="col-span-12 xl:col-span-8">
           <RecordTable />
         </div>
         <ChartThree />
-      </div>
+      </div> */}
     </>
   );
 };

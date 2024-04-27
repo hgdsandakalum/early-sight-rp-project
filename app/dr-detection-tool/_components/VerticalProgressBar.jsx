@@ -3,8 +3,6 @@ import React from "react";
 import "@styles/styles.css";
 
 const VerticalProgress = ({ progress }) => {
-  const [ref, { width }] = useMeasure();
-  const props = useSpring({ width: 25 ? width : 0 });
   const height = "h-1/5";
 
   return (
