@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import useMeasure from "react-use-measure";
-import { useSpring, animated } from "@react-spring/web";
 import "@styles/styles.css";
 
 const VerticalProgress = ({ progress }) => {
