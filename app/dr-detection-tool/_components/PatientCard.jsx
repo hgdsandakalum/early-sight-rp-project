@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 
@@ -12,7 +13,7 @@ const PatientCard = () => {
       </div>
       <div className="mt-6 mb-4 gap-12 sm:flex">
         <div className="flex flex-col">
-          <span className="font-semibold">Mobile Number</span>
+          <span className="font-semibold ">Mobile Number</span>
           <span className="text-sm text-gray-500">+447700960054</span>
         </div>
         <div className="flex flex-col">

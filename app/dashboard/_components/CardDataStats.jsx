@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 
 const CardDataStats = ({
@@ -16,9 +17,7 @@ const CardDataStats = ({
 
       <div className="mt-4 flex items-end justify-between">
         <div>
-          <h4 className="text-2xl font-bold text-black">
-            {total}
-          </h4>
+          <h4 className="text-2xl font-bold text-black">{total}</h4>
           <span className="text-sm font-medium text-gray-500">{title}</span>
         </div>
 

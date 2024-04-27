@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import VerticalProgress from "../_components/VerticalProgressBar";
@@ -28,7 +29,9 @@ const DRResults = () => {
         <div className="grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
           <div className="col-span-12 xl:col-span-6">
             <div className="px-6 pb-6">
-              <h5 className="py-3 font-semibold">Left Eye</h5>
+              <h5 className="py-3 font-semibold text-sm sm:text-base">
+                Left Eye
+              </h5>
               <div className="flex justify-between">
                 <div className="flex flex-col justify-center items-center box-content h-64 w-64 p-4 border-4 rounded border-dotted">
                   <svg
@@ -68,7 +71,9 @@ const DRResults = () => {
 
           <div className="col-span-12 xl:col-span-6">
             <div className="px-6 pb-6">
-              <h5 className="py-3 font-semibold">Right Eye</h5>
+              <h5 className="py-3 font-semibold text-sm sm:text-base">
+                Right Eye
+              </h5>
               <div className="flex justify-between">
                 <div className="flex flex-col justify-center items-center box-content h-64 w-64 p-4 border-4 rounded border-dotted">
                   <svg

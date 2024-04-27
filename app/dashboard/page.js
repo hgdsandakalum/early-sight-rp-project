@@ -1,30 +1,12 @@
 "use client";
 import React, { useRef } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { options } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
-import { signOut } from "next-auth/react";
 import CardDataStats from "./_components/CardDataStats";
 import ChartOne from "./_components/Charts/ChartOne";
 import ChartThree from "./_components/Charts/ChartThree";
 import UserCard from "./_components/UserCard";
 import RecordTable from "./_components/Charts/RecordTable";
-
-
 
 const DashboardPage = () => {
   const buttonRef = useRef(null);
@@ -35,7 +17,12 @@ const DashboardPage = () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
-        <CardDataStats title="DR Detecion Today" total="49" rate="0.43%" levelUp>
+        <CardDataStats
+          title="DR Detecion Today"
+          total="49"
+          rate="0.43%"
+          levelUp
+        >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -54,7 +41,12 @@ const DashboardPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="DR Detecion Rate" total="35%" rate="4.35%" levelUp>
+        <CardDataStats
+          title="DR Detecion Rate"
+          total="35%"
+          rate="4.35%"
+          levelUp
+        >
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -77,7 +69,12 @@ const DashboardPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total DR Positive Cases" total="25365" rate="2.59%" levelUp>
+        <CardDataStats
+          title="Total DR Positive Cases"
+          total="25365"
+          rate="2.59%"
+          levelUp
+        >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -96,7 +93,12 @@ const DashboardPage = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total DR Detections" total="100526" rate="0.95%" levelDown>
+        <CardDataStats
+          title="Total DR Detections"
+          total="100526"
+          rate="0.95%"
+          levelDown
+        >
           <svg
             className="fill-primary dark:fill-white"
             width="22"

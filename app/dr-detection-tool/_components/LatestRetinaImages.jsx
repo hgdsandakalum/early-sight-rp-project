@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import RetinaImage from "../../../public/images/retina_img.jpg";
@@ -14,7 +15,9 @@ const LatestRetinaImages = () => {
         <div className="grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
           <div className="col-span-12 xl:col-span-6">
             <div className="px-6 pb-6">
-              <h5 className="py-3 font-semibold">Left Eye</h5>
+              <h5 className="py-3 font-semibold text-xs sm:text-sm">
+                Left Eye
+              </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
                   src={RetinaImage}
@@ -27,7 +30,9 @@ const LatestRetinaImages = () => {
 
           <div className="col-span-12 xl:col-span-6">
             <div className="px-6 pb-6">
-              <h5 className="py-3 font-semibold">Right Eye</h5>
+              <h5 className="py-3 font-semibold text-xs sm:text-sm">
+                Right Eye
+              </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
                   src={RetinaImage}
