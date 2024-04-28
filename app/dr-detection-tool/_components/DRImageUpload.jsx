@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 
-const DRImageUpload = () => {
+const DRImageUpload = ({ handleIsPatient }) => {
   return (
     <div className="flex flex-col gap-9 h-full">
       <div className="h-full rounded-sm border border-stroke bg-white drop-shadow-md">
@@ -14,11 +15,34 @@ const DRImageUpload = () => {
               <label className="mb-3 block text-sm font-medium text-black">
                 Patient ID <span className="text-meta-1">*</span>
               </label>
-              <input
-                type="text"
-                placeholder="Enter Patient ID"
-                className="w-full rounded border-[1px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter"
-              />
+              <div className="flex gap-1">
+                <input
+                  type="text"
+                  placeholder="Enter Patient ID"
+                  className="w-full rounded border-[1px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter"
+                />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={(e) => handleIsPatient(e)}
+                  className="h-auto w-12 bg-primary p-3 hover:bg-slate-700"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="#ffffff"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                </Button>
+              </div>
             </div>
 
             <div className="mb-4">
