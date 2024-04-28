@@ -8,7 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import {
+  ArrowUpDown,
+  MoreHorizontal,
+  Copy,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
 
 export const columns = [
   {
@@ -29,11 +35,34 @@ export const columns = [
   },
   {
     accessorKey: "conditions",
-    header: "Conditions",
+    header: () => <div className="">Conditions</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col">
+          {row.original.conditions.map((data) => (
+            <span>{data}</span>
+          ))}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "nextAppointment",
-    header: "Next Appointment",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="text-xs sm:text-sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Next Appointment
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="pl-4">{row.original.nextAppointment}</div>;
+    },
   },
   {
     accessorKey: "joinedDate",
@@ -43,7 +72,7 @@ export const columns = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const patient = row.original;
 
       return (
         <DropdownMenu>
@@ -56,13 +85,19 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(patient.patientID)}
             >
-              Copy payment ID
+              <Copy className="mr-2 w-5" />
+              Copy
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>
+              <SquarePen className="mr-2 w-5" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash2 className="mr-2 w-5" />
+              Remove
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

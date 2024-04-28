@@ -42,6 +42,24 @@ async function getData() {
       nextAppointment: "1/28/2024",
       joinedDate: "8/15/2022",
     },
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension", "Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
   ];
 }
 
@@ -51,7 +69,7 @@ const Page = async () => {
   return (
     <>
       <DefaultLayout>
-        <div className="container mx-auto py-10">
+        <div className="container mx-auto">
           <DataTable columns={columns} data={data} />
         </div>
       </DefaultLayout>
