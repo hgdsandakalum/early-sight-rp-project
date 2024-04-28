@@ -21,8 +21,12 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Plus } from "lucide-react";
+import { PatientAddModal } from "./patient-add-modal";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 export function DataTable({ columns, data }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const table = useReactTable({
@@ -42,31 +46,45 @@ export function DataTable({ columns, data }) {
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Search Patient ID"
-          value={table.getColumn("patientID")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("patientID")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="-ml-8"
-        >
-          <path
-            d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
-            stroke="#cbd5e1"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+      <div className="flex items-center justify-between py-4">
+        <div className="flex items-center">
+          <Input
+            placeholder="Search Patient ID"
+            value={table.getColumn("patientID")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("patientID")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
           />
-        </svg>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="-ml-8"
+          >
+            <path
+              d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+              stroke="#cbd5e1"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <PatientAddModal />
+        {/* <Dialog>
+          <PatientAddModal />
+          <DialogTrigger>
+            <Button onClick={() => setIsModalOpen(true)}>
+              <div className="flex">
+                <Plus className="mr-1" />
+                <span className="hidden sm:block">Add New Patient</span>
+              </div>
+            </Button>
+          </DialogTrigger>
+        </Dialog> */}
       </div>
       <div className="rounded-md border">
         <Table>
