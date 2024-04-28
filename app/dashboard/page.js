@@ -1,12 +1,33 @@
 "use client";
 import React, { useRef } from "react";
+import dynamic from "next/dynamic";
 // import { options } from "../api/auth/[...nextauth]/options";
 // import { getServerSession } from "next-auth/next";
-import CardDataStats from "./_components/CardDataStats";
-import ChartOne from "./_components/Charts/ChartOne";
-import ChartThree from "./_components/Charts/ChartThree";
-import UserCard from "./_components/UserCard";
-import RecordTable from "./_components/Charts/RecordTable";
+const CardDataStats = dynamic(() => import("./_components/CardDataStats"), {
+  ssr: false,
+});
+
+const ChartOne = dynamic(() => import("./_components/Charts/ChartOne"), {
+  ssr: false,
+});
+
+const ChartThree = dynamic(() => import("./_components/Charts/ChartThree"), {
+  ssr: false,
+});
+
+const UserCard = dynamic(() => import("./_components/UserCard"), {
+  ssr: false,
+});
+
+const RecordTable = dynamic(() => import("./_components/Charts/RecordTable"), {
+  ssr: false,
+});
+
+// import CardDataStats from "./_components/CardDataStats";
+// import ChartOne from "./_components/Charts/ChartOne";
+// import ChartThree from "./_components/Charts/ChartThree";
+// import UserCard from "./_components/UserCard";
+// import RecordTable from "./_components/Charts/RecordTable";
 
 const DashboardPage = () => {
   // const buttonRef = useRef(null);
