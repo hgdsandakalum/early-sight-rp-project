@@ -1,12 +1,34 @@
 import Link from "next/link";
-import DarkModeSwitcher from "./DarkModeSwitcher";
+import { usePathname } from "next/navigation";
 import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 const Header = (props) => {
   const { sidebarOpen, setSidebarOpen } = props;
+  const pathname = usePathname();
+  const [pageTitle, setPageTitle] = useState("");
+
+  useEffect(() => {
+    switch (pathname) {
+      case "/dashboard":
+        setPageTitle("Dashboard");
+        break;
+      case "/dr-detection-tool":
+        setPageTitle("Diabetic Retinopathy Detection Tool");
+        break;
+      case "/login":
+        setPageTitle("Login");
+        break;
+      case "/patients":
+        setPageTitle("Patients Data List");
+        break;
+      default:
+        setPageTitle("Dashboard");
+    }
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-[9999] flex w-full bg-white shadow">
@@ -96,6 +118,10 @@ const Header = (props) => {
             /> */}
           </Link>
         </div>
+
+        <h2 className="font-bold py-5 md:text-2xl hidden sm:flex text-base pl-4 l:pl-0">
+          {pageTitle}
+        </h2>
 
         <div className="grow"></div>
 

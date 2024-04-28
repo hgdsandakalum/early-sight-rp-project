@@ -1,26 +1,62 @@
-'use client';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
 
-const Page = () => {
-    return (
-      <>
-        <div className="flex flex-col flex-1 justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <img
-                className="mx-auto h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-                />
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
-                </h2>
-            </div>
-            <div>
-                <Button type="submit" className="flex w-full justify-center">Sign in</Button>
-            </div>
+async function getData() {
+  // Fetch data from your API here.
+  return [
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+    {
+      patientID: "PT2023-A103",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+  ];
+}
+
+const Page = async () => {
+  const data = await getData();
+
+  return (
+    <>
+      <DefaultLayout>
+        <div className="container mx-auto py-10">
+          <DataTable columns={columns} data={data} />
         </div>
-      </>
-    )
-  }
+      </DefaultLayout>
+    </>
+  );
+};
 
-  export default Page;
+export default Page;

@@ -4,7 +4,8 @@ import Image from "next/image";
 import VerticalProgress from "../_components/VerticalProgressBar";
 
 const DRResults = () => {
-  const [progressState, setProgressState] = useState(5);
+  const [progressState, setProgressState] = useState(22);
+  const [progressState2, setProgressState2] = useState(80);
 
   //   useEffect(() => {
   //     setInterval(() => {
@@ -93,7 +94,7 @@ const DRResults = () => {
                   </svg>
                   <span className="text-slate-500">Placeholder</span>
                 </div>
-                <VerticalProgress progress={progressState} />
+                <VerticalProgress progress={progressState2} />
               </div>
               <div className="mt-4">
                 <textarea

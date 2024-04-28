@@ -1,12 +1,27 @@
 "use client";
 import React, { useRef } from "react";
+import dynamic from "next/dynamic";
 // import { options } from "../api/auth/[...nextauth]/options";
 // import { getServerSession } from "next-auth/next";
-import CardDataStats from "./_components/CardDataStats";
-import ChartOne from "./_components/Charts/ChartOne";
-import ChartThree from "./_components/Charts/ChartThree";
-import UserCard from "./_components/UserCard";
-import RecordTable from "./_components/Charts/RecordTable";
+const CardDataStats = dynamic(() => import("./_components/CardDataStats"), {
+  ssr: false,
+});
+
+const ChartOne = dynamic(() => import("./_components/Charts/ChartOne"), {
+  ssr: false,
+});
+
+const ChartThree = dynamic(() => import("./_components/Charts/ChartThree"), {
+  ssr: false,
+});
+
+const UserCard = dynamic(() => import("./_components/UserCard"), {
+  ssr: false,
+});
+
+const RecordTable = dynamic(() => import("./_components/Charts/RecordTable"), {
+  ssr: false,
+});
 
 const DashboardPage = () => {
   // const buttonRef = useRef(null);
@@ -16,8 +31,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      assadsadsa
-      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7">
         <CardDataStats
           title="DR Detecion Today"
           total="49"
@@ -122,15 +136,15 @@ const DashboardPage = () => {
             />
           </svg>
         </CardDataStats>
-      </div> */}
-      {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
+      </div>
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
         <ChartOne />
         <UserCard />
         <div className="col-span-12 xl:col-span-8">
           <RecordTable />
         </div>
         <ChartThree />
-      </div> */}
+      </div>
     </>
   );
 };
