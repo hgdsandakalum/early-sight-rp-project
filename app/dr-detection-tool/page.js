@@ -17,10 +17,7 @@ const DRToolPage = () => {
   return (
     <>
       <DefaultLayout>
-        <h2 className="font-bold py-5 text-xl sm:text-2xl">
-          Diabetic Retinopathy Detection Tool
-        </h2>
-        <div className="grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7 2xl:gap-7">
+        <div className="grid grid-cols-12 gap-4 md:mt-2 md:gap-6 2xl:mt-3 2xl:gap-7">
           <div className="col-span-12 xl:col-span-4">
             <DRImageUpload handleIsPatient={handleIsPatient} />
           </div>

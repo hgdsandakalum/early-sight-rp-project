@@ -23,12 +23,6 @@ const RecordTable = dynamic(() => import("./_components/Charts/RecordTable"), {
   ssr: false,
 });
 
-// import CardDataStats from "./_components/CardDataStats";
-// import ChartOne from "./_components/Charts/ChartOne";
-// import ChartThree from "./_components/Charts/ChartThree";
-// import UserCard from "./_components/UserCard";
-// import RecordTable from "./_components/Charts/RecordTable";
-
 const DashboardPage = () => {
   // const buttonRef = useRef(null);
   // const session = getServerSession(options);
