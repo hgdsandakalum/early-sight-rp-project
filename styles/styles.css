@@ -28,3 +28,10 @@
   justify-content: center;
   color: #272727;
 }
+
+.icon-rtl {
+  padding-left: 25px;
+  background: url("https://static.thenounproject.com/png/101791-200.png")
+    no-repeat left;
+  background-size: 20px;
+}
