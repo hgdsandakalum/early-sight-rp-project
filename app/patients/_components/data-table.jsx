@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { PatientAddModal } from "./patient-add-modal";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { RemoveDialog } from "./RemoveDialog";
 
 export function DataTable({ columns, data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
