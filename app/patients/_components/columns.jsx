@@ -26,12 +26,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { RemoveDialog } from "./RemoveDialog";
+import { PatientEditModal } from "./patient-edit-modal";
 
-// let isRemoveDialog = false;
 let patientID = "";
-
-// const [isRemoveDialog, setIsRemoveDialog] = useState(false);
 
 export const columns = [
   {
@@ -92,6 +89,7 @@ export const columns = [
       const patient = row.original;
       const [isRemoveDialog, setIsRemoveDialog] = useState(false);
       const [isEditDialog, setIsEditDialog] = useState(false);
+      const [patientData, setPatientData] = useState([]);
 
       const removePatient = (id) => {
         console.log("patientID", id);
@@ -102,8 +100,8 @@ export const columns = [
       };
 
       const editPatient = (data) => {
-        console.log("patient", data);
         setIsEditDialog(true);
+        setPatientData(data);
       };
 
       return (
@@ -136,34 +134,16 @@ export const columns = [
             </DropdownMenuContent>
           </DropdownMenu>
           {/* Edit Dialog */}
-          <Dialog open={isEditDialog}>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Remove Patient</DialogTitle>
-                <DialogDescription>
-                  Are you really want to remove the patient({patientID}) ?
-                </DialogDescription>
-              </DialogHeader>
-
-              <DialogFooter className="sm:justify-start">
-                <Button type="button">Yes</Button>
-                <DialogClose asChild>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={() => setIsRemoveDialog(false)}
-                  >
-                    No
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <PatientEditModal
+            open={isEditDialog}
+            data={patientData}
+            setIsEditDialog={setIsEditDialog}
+          />
           {/* Remove Dialog */}
           <Dialog open={isRemoveDialog}>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Remove Patient</DialogTitle>
+                <DialogTitle>Edit Patient Details</DialogTitle>
                 <DialogDescription>
                   Are you really want to remove the patient({patientID}) ?
                 </DialogDescription>
