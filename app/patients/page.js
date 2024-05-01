@@ -8,7 +8,16 @@ async function getData() {
   // Fetch data from your API here.
   return [
     {
-      patientID: "PT2023-A103",
+      patientID: "PT2023-A101",
+      patientName: "Ralph Edwards",
+      gender: "M",
+      email: "debbie.baker@example.com",
+      conditions: ["Hypertension"],
+      nextAppointment: "1/28/2024",
+      joinedDate: "8/15/2022",
+    },
+    {
+      patientID: "PT2023-A102",
       patientName: "Ralph Edwards",
       gender: "M",
       email: "debbie.baker@example.com",
@@ -26,7 +35,7 @@ async function getData() {
       joinedDate: "8/15/2022",
     },
     {
-      patientID: "PT2023-A103",
+      patientID: "PT2023-A104",
       patientName: "Ralph Edwards",
       gender: "M",
       email: "debbie.baker@example.com",
@@ -35,7 +44,7 @@ async function getData() {
       joinedDate: "8/15/2022",
     },
     {
-      patientID: "PT2023-A103",
+      patientID: "PT2023-A105",
       patientName: "Ralph Edwards",
       gender: "M",
       email: "debbie.baker@example.com",
@@ -44,16 +53,7 @@ async function getData() {
       joinedDate: "8/15/2022",
     },
     {
-      patientID: "PT2023-A103",
-      patientName: "Ralph Edwards",
-      gender: "M",
-      email: "debbie.baker@example.com",
-      conditions: ["Hypertension"],
-      nextAppointment: "1/28/2024",
-      joinedDate: "8/15/2022",
-    },
-    {
-      patientID: "PT2023-A103",
+      patientID: "PT2023-A106",
       patientName: "Ralph Edwards",
       gender: "M",
       email: "debbie.baker@example.com",
