@@ -69,11 +69,9 @@ const Page = async () => {
 
   return (
     <>
-      <DefaultLayout>
-        <div className="container mx-auto">
-          <DataTable columns={columns} data={data} />
-        </div>
-      </DefaultLayout>
+      <div className="container mx-auto">
+        <DataTable columns={columns} data={data} />
+      </div>
     </>
   );
 };

@@ -10,11 +10,11 @@ export default function Layout({
   const { isAuthenticated, setIsAuthenticatedAction, setUserAction } =
     useAuthStore();
 
-  useEffect(() => {
-    // initializeAuth();
-    setIsAuthenticatedAction(true);
-    console.log("isAuthenticated4", isAuthenticated);
-  }, []);
+  // useEffect(() => {
+  //   // initializeAuth();
+  //   setIsAuthenticatedAction(true);
+  //   console.log("isAuthenticated4", isAuthenticated);
+  // }, []);
 
   return <div>{children}</div>;
 }

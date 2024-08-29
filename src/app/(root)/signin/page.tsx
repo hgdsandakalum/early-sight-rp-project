@@ -1,14 +1,15 @@
 "use client";
+
 import { redirect } from "next/navigation";
 import LoginFrom from "./form";
 import { useAuthStore } from "@/store";
 
-const LoginPage = async () => {
+const LoginPage = () => {
   const { isAuthenticated, setIsAuthenticatedAction } = useAuthStore();
 
   if (!isAuthenticated) {
     setIsAuthenticatedAction(true);
-    console.log("isAuthenticated", isAuthenticated);
+    // console.log("isAuthenticated", isAuthenticated);
     // redirect("/user/dashboard");
   }
 

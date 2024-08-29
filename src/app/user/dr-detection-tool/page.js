@@ -16,24 +16,22 @@ const DRToolPage = () => {
 
   return (
     <>
-      <DefaultLayout>
-        <div className="grid grid-cols-12 gap-4 md:mt-2 md:gap-6 2xl:mt-3 2xl:gap-7">
-          <div className="col-span-12 xl:col-span-4">
-            <DRImageUpload handleIsPatient={handleIsPatient} />
-          </div>
-          <div className="col-span-12 xl:col-span-8">
-            <DRResults />
-          </div>
-          {isPatient ? <PatientCard /> : <></>}
-          {isPatient ? (
-            <div className="col-span-12 xl:col-span-8">
-              <LatestRetinaImages />
-            </div>
-          ) : (
-            <></>
-          )}
+      <div className="grid grid-cols-12 gap-4 md:mt-2 md:gap-6 2xl:mt-3 2xl:gap-7">
+        <div className="col-span-12 xl:col-span-4">
+          <DRImageUpload handleIsPatient={handleIsPatient} />
         </div>
-      </DefaultLayout>
+        <div className="col-span-12 xl:col-span-8">
+          <DRResults />
+        </div>
+        {isPatient ? <PatientCard /> : <></>}
+        {isPatient ? (
+          <div className="col-span-12 xl:col-span-8">
+            <LatestRetinaImages />
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </>
   );
 };

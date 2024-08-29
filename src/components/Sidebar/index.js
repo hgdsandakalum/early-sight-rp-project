@@ -142,7 +142,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item Dashboard --> */}
               <li>
                 <Link
-                  href="/"
+                  href="/user/dashboard"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
                     pathname === "/" && "bg-slate-900 text-white"
                   }`}
