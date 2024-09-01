@@ -45,10 +45,11 @@ const LoginForm = () => {
         throw new Error(errorData.message || "Login failed");
       }
 
-      const { token } = await response.json();
+      const { token, userId } = await response.json();
 
       // Store the token in localStorage or a secure cookie
       localStorage.setItem("authToken", token);
+      localStorage.setItem("userId", userId);
 
       // Show success message
       toast.success("Logged in successfully");

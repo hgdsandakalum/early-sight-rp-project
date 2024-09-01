@@ -1,43 +1,60 @@
 "use client";
+
 import "@/styles/global.css";
 import { useEffect } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { AntdConfigProvider } from "@/providers";
 import { useAppStore, useAuthStore } from "@/store";
+import { getCurrentUser } from "@/services";
+import { Loader } from "@/components/loader";
+import { redirect } from "next/navigation";
 
-function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
-  const { isAuthenticated, setIsAuthenticatedAction, setUserAction } =
+}
+
+function RootLayout({ children }: RootLayoutProps) {
+  const { isAuthenticated, setIsAuthenticatedAction, setUserAction, user } =
     useAuthStore();
   const { isLoading, setIsLoadingAction } = useAppStore();
 
-  // const initializeAuth = () => {
-  //   try {
-  //     setIsLoadingAction(true);
-  //     setIsAuthenticatedAction(true);
-  //     console.log("isAuthenticated", isAuthenticated);
-  //     if (!isAuthenticated) {
-  //       console.log("isAuthenticated2", isAuthenticated);
-  //       const userId = "123";
-  //       const currentTimestamp = Math.floor(Date.now() / 1000);
+  const initializeAuth = async () => {
+    try {
+      setIsLoadingAction(true);
 
-  //       setIsAuthenticatedAction(true);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setIsLoadingAction(false);
-  //     console.log("isAuthenticated3", isAuthenticated);
-  //   }
-  // };
+      const storedAuthToken = localStorage.getItem("authToken");
+      const storedUserId = localStorage.getItem("userId");
+
+      const fetchUserData = async (userId: string) => {
+        const userData = await getCurrentUser(userId);
+        setUserAction(userData);
+      };
+
+      if (isAuthenticated) {
+        await fetchUserData(storedUserId || "");
+        return;
+      }
+
+      if (storedAuthToken && storedUserId) {
+        setIsAuthenticatedAction(true);
+        await fetchUserData(storedUserId);
+      } else {
+        setUserAction({
+          id: 0,
+          fullName: "",
+          designation: "",
+          username: "",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoadingAction(false);
+    }
+  };
 
   useEffect(() => {
-    // initializeAuth();
-    setIsAuthenticatedAction(true);
-    console.log("isAuthenticated4", isAuthenticated);
+    initializeAuth();
   }, []);
 
   return (
@@ -50,11 +67,10 @@ function RootLayout({
         className={`
         min-h-screen h-full bg-slate-50 font-sans antialiased`}
       >
+        {isLoading && <Loader fullscreen={true} size="large" />}
+
         <AntdRegistry>
-          <AntdConfigProvider>
-            {/* {isLoading && <Loader fullscreen={true} size="large" />} */}
-            {children}
-          </AntdConfigProvider>
+          <AntdConfigProvider>{children}</AntdConfigProvider>
         </AntdRegistry>
       </body>
     </html>

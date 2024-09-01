@@ -7,10 +7,8 @@ import { useAuthStore } from "@/store";
 const LoginPage = () => {
   const { isAuthenticated, setIsAuthenticatedAction } = useAuthStore();
 
-  if (!isAuthenticated) {
-    setIsAuthenticatedAction(true);
-    // console.log("isAuthenticated", isAuthenticated);
-    // redirect("/user/dashboard");
+  if (isAuthenticated) {
+    redirect("/user/dashboard");
   }
 
   return (

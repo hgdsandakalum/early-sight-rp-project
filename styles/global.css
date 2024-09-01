@@ -66,4 +66,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .ant-spin-fullscreen {
+    z-index: 99999 !important;
+  }
 }

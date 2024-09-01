@@ -3,25 +3,32 @@ import { create } from "zustand";
 
 type State = {
   isAuthenticated: boolean;
-  user: User | undefined;
+  user: User;
 };
+
 type Action = {
   setIsAuthenticatedAction: (isAuthenticated: boolean) => void;
-  setUserAction: (user: any) => void;
+  setUserAction: (user: User) => void;
 };
+
 const initialState: State = {
   isAuthenticated: false,
-  user: undefined,
+  user: {
+    id: 0,
+    fullName: "",
+    designation: "",
+    username: "",
+  },
 };
 
 export const useAuthStore = create<State & Action>((set) => ({
   ...initialState,
   setIsAuthenticatedAction: (isAuthenticated: boolean) =>
     set(() => ({
-      isAuthenticated,
+      isAuthenticated: isAuthenticated,
     })),
-  setUserAction: (user: any) =>
+  setUserAction: (user: User) =>
     set(() => ({
-      user,
+      user: user,
     })),
 }));

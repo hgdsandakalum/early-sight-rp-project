@@ -1,42 +1,63 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuthStore } from "@/store";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const DropdownUser = () => {
+  const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user, setIsAuthenticatedAction } = useAuthStore();
 
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
+  // const trigger = useRef(null);
+  // const dropdown = useRef(null);
+  const trigger = useRef<any>(null);
+  const dropdown = useRef<HTMLDivElement>(null);
 
-  // close on click outside
   useEffect(() => {
-    const clickHandler = (event) => {
-      if (!dropdown.current) return;
+    const clickHandler = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (!dropdown.current || !trigger.current) return;
       if (
         !dropdownOpen ||
-        dropdown.current.contains(event.target) ||
-        trigger.current.contains(event.target)
+        dropdown.current.contains(target) ||
+        trigger.current.contains(target)
       )
         return;
       setDropdownOpen(false);
     };
 
-    document.addEventListener("click", clickHandler);
-
-    return () => document.removeEventListener("click", clickHandler);
-  }, [dropdownOpen]);
-
-  // close if the esc key is pressed
-  useEffect(() => {
-    const keyHandler = (event) => {
-      if (!dropdownOpen || event.keyCode !== 27) return;
+    const keyHandler = ({ keyCode }: any) => {
+      if (!dropdownOpen || keyCode !== 27) return;
       setDropdownOpen(false);
     };
 
+    document.addEventListener("click", clickHandler);
     document.addEventListener("keydown", keyHandler);
 
-    return () => document.removeEventListener("keydown", keyHandler);
+    return () => {
+      document.removeEventListener("click", clickHandler);
+      document.removeEventListener("keydown", keyHandler);
+    };
   }, [dropdownOpen]);
+
+  const handleLogout = () => {
+    // delete the token in localStorage
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
+
+    // Show success message
+    toast.success("Logged in successfully");
+    setIsAuthenticatedAction(false);
+
+    // Redirect to dashboard or home page
+    router.push("/");
+  };
+
+  useEffect(() => {
+    console.log("Updated user data:2", user);
+  }, [user]);
 
   return (
     <div className="relative">
@@ -46,12 +67,12 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         href="#"
       >
-        <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+        <div className="flex flex-col">
+          <span className=" text-sm font-medium text-black dark:text-white">
+            {user.fullName}
           </span>
-          <span className="block text-xs">Eye Surgeon</span>
-        </span>
+          <span className=" text-xs">Eye Surgeon</span>
+        </div>
 
         <span className="h-12 w-12 rounded-full">
           <Image
@@ -165,7 +186,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button
+          className="flex items-center gap-3 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={handleLogout}
+        >
           <svg
             className="fill-current"
             width="22"
