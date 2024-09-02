@@ -5,8 +5,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarLinkGroup from "./SidebarLinkGroup";
+import { useAuthStore } from "@/store";
+import { useRouter } from "next/navigation";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+  const router = useRouter();
+  const { setIsAuthenticatedAction, setUserAction } = useAuthStore();
+
   const pathname = usePathname();
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -56,6 +61,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     }
   }, [sidebarExpanded]);
 
+  const handleLogout = () => {
+    console.log("logout fun");
+    // delete the token in localStorage
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
+    console.log("logout fun2");
+
+    setIsAuthenticatedAction(false);
+    setUserAction({
+      id: 0,
+      fullName: "",
+      designation: "",
+      username: "",
+    });
+    console.log("logout fun3");
+
+    // Redirect to dashboard or home page
+    router.push("/");
+    console.log("logout fun4");
+  };
+
   return (
     <aside
       ref={sidebar}
@@ -65,7 +91,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
-        <Link href="/">
+        <Link href="/user/dashboard">
           <svg
             width="32"
             height="32"
@@ -144,7 +170,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <Link
                   href="/user/dashboard"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                    pathname === "/" && "bg-slate-900 text-white"
+                    pathname.includes("dashboard") && "bg-slate-900 text-white"
                   }`}
                   // onClick={(e) => {
                   //   e.preventDefault();
@@ -308,7 +334,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
-                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                    handleLogout();
                   }}
                 >
                   <svg

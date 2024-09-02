@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const DropdownUser = () => {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { user, setIsAuthenticatedAction } = useAuthStore();
+  const { user, setIsAuthenticatedAction, setUserAction } = useAuthStore();
 
   // const trigger = useRef(null);
   // const dropdown = useRef(null);
@@ -50,14 +50,16 @@ const DropdownUser = () => {
     // Show success message
     toast.success("Logged in successfully");
     setIsAuthenticatedAction(false);
+    setUserAction({
+      id: 0,
+      fullName: "",
+      designation: "",
+      username: "",
+    });
 
     // Redirect to dashboard or home page
     router.push("/");
   };
-
-  useEffect(() => {
-    console.log("Updated user data:2", user);
-  }, [user]);
 
   return (
     <div className="relative">
@@ -71,7 +73,7 @@ const DropdownUser = () => {
           <span className=" text-sm font-medium text-black dark:text-white">
             {user.fullName}
           </span>
-          <span className=" text-xs">Eye Surgeon</span>
+          <span className=" text-xs">{user.designation}</span>
         </div>
 
         <span className="h-12 w-12 rounded-full">

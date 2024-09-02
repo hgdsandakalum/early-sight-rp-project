@@ -6,21 +6,14 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 import { Button } from "../../../components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 const LoginForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formError, setFormError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,10 +31,10 @@ const LoginForm = () => {
         },
         body: JSON.stringify(formData),
       });
-      console.log(formData);
 
       if (!response.ok) {
         const errorData = await response.json();
+        setFormError(errorData.message);
         throw new Error(errorData.message || "Login failed");
       }
 
@@ -71,7 +64,7 @@ const LoginForm = () => {
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account//
+          Sign in to your account
         </h2>
       </div>
 
@@ -113,39 +106,9 @@ const LoginForm = () => {
               />
             </div>
           </div>
-          {/* <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="Username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-          {/* <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center justify-between">
-                  <FormLabel>Password</FormLabel>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-[#334155]">
-                      Forgot password?
-                    </a>
-                  </div>
-                </div>
-                <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+          {formError && (
+            <div className="text-red-700 text-xs py-[2px]">{formError}</div>
+          )}
           <div>
             <Button type="submit" className="flex w-full justify-center">
               Sign in

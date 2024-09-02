@@ -50,12 +50,17 @@ function RootLayout({ children }: RootLayoutProps) {
       console.error(error);
     } finally {
       setIsLoadingAction(false);
+      console.log("initializeAuth");
     }
   };
 
   useEffect(() => {
     initializeAuth();
   }, []);
+
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
 
   return (
     <html lang="en" className="h-full bg-white">
