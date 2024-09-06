@@ -1,11 +1,11 @@
 "use client";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -23,21 +23,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 import { PatientEditModal } from "./patient-edit-modal";
+import { ColumnDef, Row } from "@tanstack/react-table";
+import { Patient } from "../../../../../types";
 
 let patientID = "";
 
-export const columns = [
+export const columns: ColumnDef<Patient>[] = [
   {
-    accessorKey: "patientID",
+    accessorKey: "id",
     header: "Patient ID",
   },
   {
-    accessorKey: "patientName",
+    accessorKey: "firstName",
     header: "Patient Name",
+    cell: ({ row }: { row: Row<Patient> }) => {
+      const fullName = row?.original?.firstName + " " + row?.original?.lastName;
+      return fullName;
+    },
   },
   {
     accessorKey: "gender",
@@ -47,18 +51,23 @@ export const columns = [
     accessorKey: "email",
     header: "Email",
   },
+  // {
+  //   accessorKey: "conditions",
+  //   header: () => <div className="">Conditions</div>,
+  //   cell: ({ row }: { row: Row<Patient> }) => {
+  //     const conditions = row?.original?.conditions || [];
+  //     return (
+  //       <div className="flex flex-col">
+  //         {conditions.map((data: string, index: number) => (
+  //           <span key={index}>{data}</span>
+  //         ))}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "conditions",
-    header: () => <div className="">Conditions</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="flex flex-col">
-          {row.original.conditions.map((data) => (
-            <span>{data}</span>
-          ))}
-        </div>
-      );
-    },
+    header: "Conditions",
   },
   {
     accessorKey: "nextAppointment",
@@ -85,21 +94,18 @@ export const columns = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
+    cell: ({ row }: { row: Row<Patient> }) => {
       const patient = row.original;
       const [isRemoveDialog, setIsRemoveDialog] = useState(false);
       const [isEditDialog, setIsEditDialog] = useState(false);
-      const [patientData, setPatientData] = useState([]);
+      const [patientData, setPatientData] = useState<Patient | null>(null);
 
-      const removePatient = (id) => {
-        console.log("patientID", id);
+      const removePatient = (id: string) => {
         setIsRemoveDialog(true);
-        // isRemoveDialog = true;
         patientID = id;
-        console.log("isRemoveDialog", isRemoveDialog);
       };
 
-      const editPatient = (data) => {
+      const editPatient = (data: Patient) => {
         setIsEditDialog(true);
         setPatientData(data);
       };
@@ -109,14 +115,13 @@ export const columns = [
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(patient.patientID)}
+                onClick={() => navigator.clipboard.writeText(patient.id)}
               >
                 <Copy className="mr-2 w-5" />
                 Copy
@@ -125,20 +130,20 @@ export const columns = [
                 <SquarePen className="mr-2 w-5" />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => removePatient(patient.patientID)}
-              >
+              <DropdownMenuItem onClick={() => removePatient(patient.id)}>
                 <Trash2 className="mr-2 w-5" />
                 Remove
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           {/* Edit Dialog */}
-          <PatientEditModal
-            open={isEditDialog}
-            data={patientData}
-            setIsEditDialog={setIsEditDialog}
-          />
+          {patientData && (
+            <PatientEditModal
+              open={isEditDialog}
+              data={patientData}
+              setIsEditDialog={setIsEditDialog}
+            />
+          )}
           {/* Remove Dialog */}
           <Dialog open={isRemoveDialog}>
             <DialogContent className="sm:max-w-md">

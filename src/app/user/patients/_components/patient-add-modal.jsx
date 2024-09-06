@@ -69,8 +69,10 @@ export function PatientAddModal() {
         <DialogTrigger>
           <Button onClick={() => setIsModalOpen(true)}>
             <div className="flex">
-              <Plus className="mr-1" />
-              <span className="hidden sm:block">Add New Patient</span>
+              <Plus className="mr-1 text-white" />
+              <span className="hidden sm:block text-white">
+                Add New Patient
+              </span>
             </div>
           </Button>
         </DialogTrigger>

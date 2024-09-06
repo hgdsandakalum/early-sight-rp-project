@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import {
+  ColumnDef,
   flexRender,
   SortingState,
   getCoreRowModel,
@@ -23,20 +24,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { PatientAddModal } from "./patient-add-modal";
-import { RemoveDialog } from "./RemoveDialog";
+import { Patient } from "../../../../../types";
+// import { RemoveDialog } from "./RemoveDialog";
 
-export function DataTable({ columns, data }) {
+type DataTableProps = {
+  columns: any;
+  data: Patient[];
+};
+
+export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
@@ -48,14 +54,15 @@ export function DataTable({ columns, data }) {
     <div>
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center">
-          <Input
-            placeholder="Search Patient ID"
+          {/* <Input
+            type="text"
+            // placeholder="Search Patient ID"
             value={table.getColumn("patientID")?.getFilterValue() ?? ""}
-            onChange={(event) =>
+            onChange={(event: any) =>
               table.getColumn("patientID")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
-          />
+          /> */}
           <svg
             width="24"
             height="24"
@@ -108,7 +115,7 @@ export function DataTable({ columns, data }) {
           </TableHeader>
           <TableBody className="text-xs sm:text-sm">
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows?.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -156,4 +163,4 @@ export function DataTable({ columns, data }) {
       </div>
     </div>
   );
-}
+};
