@@ -21,8 +21,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import DiabetesRetinopathyPieChart from "./DiabetesRetinopathyPieChart";
 
-const RetinopathyTable = () => {
+
+
+
+const RetinopathyPredictTable = () => {
   const [retinopathyData, setRetinopathyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sorting, setSorting] = useState([]);
@@ -262,6 +266,10 @@ const RetinopathyTable = () => {
           </Button>
         </div>
 
+
+    
+
+
         {/* Line chart section for comparison */}
         <div className="rounded-sm border border-stroke bg-white px-5 pb-5 pt-7 drop-shadow-md mt-8">
           <h5 className="text-l sm:text-xl font-semibold text-black dark:text-white">
@@ -278,10 +286,22 @@ const RetinopathyTable = () => {
               />
             </div>
           </div>
+
+          
         </div>
+        <div className="rounded-sm border border-stroke bg-white px-5 pb-5 pt-7 drop-shadow-md mt-8">
+         
+         <DiabetesRetinopathyPieChart/>
+          
+         </div>
       </div>
     </>
   );
 };
 
-export default RetinopathyTable;
+export default RetinopathyPredictTable;
+
+
+
+
+
