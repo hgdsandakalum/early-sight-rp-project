@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { PatientAddModal } from "./patient-add-modal";
 import { Patient } from "../../../../../types";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 // import { RemoveDialog } from "./RemoveDialog";
 
 type DataTableProps = {
@@ -54,15 +55,15 @@ export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
     <div>
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center">
-          {/* <Input
+          <Input
             type="text"
-            // placeholder="Search Patient ID"
-            value={table.getColumn("patientID")?.getFilterValue() ?? ""}
+            placeholder="Search Patient ID"
+            value={(table.getColumn("id")?.getFilterValue() ?? "") as string}
             onChange={(event: any) =>
-              table.getColumn("patientID")?.setFilterValue(event.target.value)
+              table.getColumn("id")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
-          /> */}
+          />
           <svg
             width="24"
             height="24"
@@ -80,18 +81,9 @@ export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
             />
           </svg>
         </div>
-        <PatientAddModal />
-        {/* <Dialog>
+        <Suspense>
           <PatientAddModal />
-          <DialogTrigger>
-            <Button onClick={() => setIsModalOpen(true)}>
-              <div className="flex">
-                <Plus className="mr-1" />
-                <span className="hidden sm:block">Add New Patient</span>
-              </div>
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
+        </Suspense>
       </div>
       <div className="rounded-md border">
         <Table>
