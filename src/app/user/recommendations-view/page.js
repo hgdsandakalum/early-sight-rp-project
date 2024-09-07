@@ -1,6 +1,6 @@
-"use client"; // This makes the component a Client Component
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -20,7 +20,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import axios from "axios";
+import { getRecommendations, addMeals } from "@/services";
+import { useRouter } from "next/router";
 
 // Define columns for meal recommendations
 export const columns = [
@@ -34,361 +35,189 @@ export const columns = [
   },
 ];
 
-const response = axios.get("https://retina-care-recoomend-server-565418b38e96.herokuapp.com/api/v2/recommendations/get_all_actions");
-
-const data = response.data;
-
-console.log(data);
-// Sample mockData for demonstration purposes
-const mockData = [
-  {
-    "_id": 1,
-    "action_name": "Rotti with lunu miris",
-    "expert_1": [
-        4,
-        5,
-        8,
-        10
-    ],
-    "expert_2": [
-        2,
-        3,
-        4
-    ]
-},
-{
-    "_id": 2,
-    "action_name": "Brown rice with TOFU , and carrot salad",
-    "expert_1": [
-        5,
-        6,
-        7,
-        11,
-        12
-    ],
-    "expert_2": [
-        2,
-        3,
-        4
-    ]
-},
-{
-    "_id": 3,
-    "action_name": "Sweet potato and coconut scrapes",
-    "expert_1": [
-        1,
-        4,
-        7
-    ],
-    "expert_2": [
-        1,
-        2,
-        3
-    ]
-},
-{
-    "_id": 4,
-    "action_name": "Brown beans with onion mixture",
-    "expert_1": [
-        4,
-        6
-    ],
-    "expert_2": [
-        2
-    ]
-},
-{
-    "_id": 5,
-    "action_name": "Egg White omelette  with bread",
-    "expert_1": [
-        1,
-        7,
-        9,
-        10
-    ],
-    "expert_2": [
-        1,
-        3,
-        4
-    ]
-},
-{
-    "_id": 6,
-    "action_name": "1 cup of brown rice with sausages and dahl curry",
-    "expert_1": [
-        2,
-        3,
-        8
-    ],
-    "expert_2": [
-        1,
-        3
-    ]
-},
-{
-    "_id": 7,
-    "action_name": "Vegetable- mixed noodles with salmon",
-    "expert_1": [
-        3
-    ],
-    "expert_2": [
-        1
-    ]
-},
-{
-    "_id": 8,
-    "action_name": "String Hoppers and Chicken curry",
-    "expert_1": [
-        1,
-        3
-    ],
-    "expert_2": [
-        1
-    ]
-},
-{
-    "_id": 9,
-    "action_name": "Egg Hoppers",
-    "expert_1": [
-        7,
-        9
-    ],
-    "expert_2": [
-        3
-    ]
-},
-{
-    "_id": 10,
-    "action_name": "oats- meal",
-    "expert_1": [
-        1
-    ],
-    "expert_2": [
-        1
-    ]
-},
-{
-    "_id": 11,
-    "action_name": "sweet corn soup with mint salad",
-    "expert_1": [
-        2,
-        8,
-        10
-    ],
-    "expert_2": [
-        1,
-        3,
-        4
-    ]
-},
-{
-    "_id": 12,
-    "action_name": "Butter bean pasta with tomato sauce",
-    "expert_1": [
-        12
-    ],
-    "expert_2": [
-        4
-    ]
-},
-{
-    "_id": 13,
-    "action_name": "lean Chicken and vegetable lettuce wraps",
-    "expert_1": [
-        2,
-        8,
-        9
-    ],
-    "expert_2": [
-        1,
-        4
-    ]
-},
-{
-    "_id": 14,
-    "action_name": "Spicy BBQ pork",
-    "expert_1": [
-        2
-    ],
-    "expert_2": [
-        1
-    ]
-},
-{
-    "_id": 15,
-    "action_name": "Rice, soya meat and potatoes",
-    "expert_1": [
-        3,
-        5,
-        6,
-        9,
-        11,
-        12
-    ],
-    "expert_2": [
-        1,
-        2,
-        3,
-        4
-    ]
-},
-{
-    "_id": 16,
-    "action_name": "smoked markerel with banana bread",
-    "expert_1": [
-        2,
-        3
-    ],
-    "expert_2": [
-        2,
-        3
-    ]
-}
-];
-
 // Modal Component
 const Modal = ({ isOpen, onClose, onSubmit }) => {
+  const router = useRouter();
   const [mealName, setMealName] = useState("");
   const [isBreakfast, setIsBreakfast] = useState(false);
   const [isLunch, setIsLunch] = useState(false);
   const [isDinner, setIsDinner] = useState(false);
+  const [calorie, setCalorie] = useState("high");
   const [calorieType, setCalorieType] = useState("low");
   const [vegetarian, setVegetarian] = useState(false);
+  const [selectedMeals, setSelectedMeals] = useState([]);
+  const [selectedVegStatus, setSelectedVegStatus] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const calorieMap = { high: 0, low: 6 };
+  const mealMap = { breakfast: 0, lunch: 1, dinner: 2 };
+  const vegetarianMap = { nonVegetarian: 0, vegetarian: 3 };
 
   if (!isOpen) return null;
+
+  const handleMealChange = (event) => {
+    const { value, checked } = event.target;
+    setSelectedMeals((prev) =>
+      checked ? [...prev, value] : prev.filter((meal) => meal !== value)
+    );
+  };
+
+  const handleVegStatusChange = (event) => {
+    const { value, checked } = event.target;
+    setSelectedVegStatus((prev) =>
+      checked ? [...prev, value] : prev.filter((veg) => veg !== value)
+    );
+  };
+
+  const getStates = () => {
+    const matchingStates = [];
+    console.log("selectedMeals", selectedMeals);
+    console.log("calorie", calorie);
+    console.log("selectedVegStatus", selectedVegStatus);
+
+    selectedMeals.forEach((meal) => {
+      selectedVegStatus.forEach((vegStatus) => {
+        const baseIndex =
+          calorieMap[calorie] + mealMap[meal] + vegetarianMap[vegStatus];
+        matchingStates.push(baseIndex + 1); // 1-based index
+      });
+    });
+    return matchingStates;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const statesArray = getStates();
+
+    const result = addRecommendations(mealName, statesArray);
+    if (result) router.reload();
+  };
+
+  const addRecommendations = async (mealName, statesArray) => {
+    try {
+      const data = await addMeals(mealName, statesArray);
+      console.log("res", data);
+    } catch (error) {
+      console.error("Error adding data: ", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
-        <h2 className="text-xl font-bold mb-4">Add New Meal</h2>
-        <div className="space-y-4">
-          {/* Meal Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Meal Name
-            </label>
-            <Input
-              value={mealName}
-              onChange={(e) => setMealName(e.target.value)}
-              placeholder="Enter meal name"
-            />
-          </div>
+        <form onSubmit={handleSubmit}>
+          <h2 className="text-xl font-bold mb-4">Add New Meal</h2>
+          <div className="space-y-4">
+            {/* Meal Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Meal Name
+              </label>
+              <Input
+                type="text"
+                value={mealName}
+                onChange={(e) => setMealName(e.target.value)}
+                placeholder="Enter meal name"
+              />
+            </div>
 
-          {/* Meal Type (Checkboxes) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Meal Type
-            </label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="breakfast"
-                checked={isBreakfast}
-                onChange={() => setIsBreakfast(!isBreakfast)}
-              />
-              <label htmlFor="breakfast">Breakfast</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="lunch"
-                checked={isLunch}
-                onChange={() => setIsLunch(!isLunch)}
-              />
-              <label htmlFor="lunch">Lunch</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="dinner"
-                checked={isDinner}
-                onChange={() => setIsDinner(!isDinner)}
-              />
-              <label htmlFor="dinner">Dinner</label>
-            </div>
-          </div>
-
-          {/* Calorie Type (Radio Buttons) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Calorie Type
-            </label>
-            <div className="space-y-2">
-              <div className="flex items-center">
+            {/* Meal Type (Checkboxes) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Meal Type
+              </label>
+              <div className="flex items-center space-x-2">
                 <input
-                  type="radio"
-                  id="low"
-                  name="calorieType"
-                  value="low"
-                  checked={calorieType === "low"}
-                  onChange={() => setCalorieType("low")}
+                  type="checkbox"
+                  value="breakfast"
+                  onChange={handleMealChange}
                 />
-                <label htmlFor="low" className="ml-2">
-                  Low Calorie
-                </label>
+                <label htmlFor="breakfast">Breakfast</label>
               </div>
-
-              <div className="flex items-center">
+              <div className="flex items-center space-x-2">
                 <input
-                  type="radio"
-                  id="high"
-                  name="calorieType"
-                  value="high"
-                  checked={calorieType === "high"}
-                  onChange={() => setCalorieType("high")}
+                  type="checkbox"
+                  id="lunch"
+                  value="lunch"
+                  onChange={handleMealChange}
                 />
-                <label htmlFor="high" className="ml-2">
-                  High Calorie
-                </label>
+                <label htmlFor="lunch">Lunch</label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="dinner"
+                  value="dinner"
+                  onChange={handleMealChange}
+                />
+                <label htmlFor="dinner">Dinner</label>
               </div>
             </div>
-          </div>
 
-          {/* Vegetarian Preference (Checkbox) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Vegetarian Preference
-            </label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="vegetarian"
-                checked={vegetarian}
-                onChange={() => setVegetarian(!vegetarian)}
-              />
-              <label htmlFor="vegetarian">Vegetarian</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="nonVegetarian"
-                checked={!vegetarian}
-                onChange={() => setVegetarian(false)}
-              />
-              <label htmlFor="nonVegetarian">Non Vegetarian</label>
-            </div>
-          </div>
+            {/* Calorie Type (Radio Buttons) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Calorie Type
+              </label>
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    value="low"
+                    checked={calorie === "low"}
+                    onChange={(e) => setCalorie(e.target.value)}
+                  />
+                  <label htmlFor="low" className="ml-2">
+                    Low Calorie
+                  </label>
+                </div>
 
-          {/* Submit Button */}
-          <div className="flex justify-end space-x-2">
-            <Button onClick={onClose} variant="outline">
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                onSubmit({
-                  mealName,
-                  mealType: { isBreakfast, isLunch, isDinner },
-                  calorieType,
-                  vegetarian,
-                });
-                onClose();
-              }}
-            >
-              Add Meal
-            </Button>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    value="high"
+                    checked={calorie === "high"}
+                    onChange={(e) => setCalorie(e.target.value)}
+                  />
+                  <label htmlFor="high" className="ml-2">
+                    High Calorie
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Vegetarian Preference (Checkbox) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Vegetarian Preference
+              </label>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value="vegetarian"
+                  onChange={handleVegStatusChange}
+                />
+                <label htmlFor="vegetarian">Vegetarian</label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  value="nonVegetarian"
+                  onChange={handleVegStatusChange}
+                />
+                <label htmlFor="nonVegetarian">Non Vegetarian</label>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end space-x-2">
+              <Button onClick={onClose} variant="outline">
+                Cancel
+              </Button>
+              <Button type="submit">{isSaved ? "" : ""}Add Meal</Button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
@@ -399,9 +228,23 @@ export default function RecommendationsView() {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const data = await getRecommendations();
+        setRecommendations(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchRecommendations();
+  }, []);
 
   const table = useReactTable({
-    data: mockData, // Use mockData or your fetched data
+    data: recommendations, // Use mockData or your fetched data
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
