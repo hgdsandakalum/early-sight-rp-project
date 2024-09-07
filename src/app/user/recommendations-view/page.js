@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -24,7 +24,7 @@ import { getRecommendations, addMeals } from "@/services";
 import { useRouter } from "next/navigation";
 
 // Define columns for meal recommendations
-export const columns = [
+const columns = [
   {
     accessorKey: "_id",
     header: "Meal ID",
