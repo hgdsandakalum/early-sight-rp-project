@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { getRecommendations, addMeals } from "@/services";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 // Define columns for meal recommendations
 export const columns = [
@@ -90,13 +90,14 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
     const statesArray = getStates();
 
     const result = addRecommendations(mealName, statesArray);
-    if (result) router.reload();
+    onClose();
+    router.refresh();
   };
 
   const addRecommendations = async (mealName, statesArray) => {
     try {
       const data = await addMeals(mealName, statesArray);
-      console.log("res", data);
+      return data;
     } catch (error) {
       console.error("Error adding data: ", error);
     }
