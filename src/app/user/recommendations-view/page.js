@@ -20,33 +20,230 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import axios from "axios";
 
 // Define columns for meal recommendations
 export const columns = [
   {
-    accessorKey: "mealID",
+    accessorKey: "_id",
     header: "Meal ID",
   },
   {
-    accessorKey: "recommendedMeal",
+    accessorKey: "action_name",
     header: "Recommended Meal",
   },
 ];
 
+const response = axios.get("https://retina-care-recoomend-server-565418b38e96.herokuapp.com/api/v2/recommendations/get_all_actions");
+
+const data = response.data;
+
+console.log(data);
 // Sample mockData for demonstration purposes
 const mockData = [
   {
-    mealID: "ML101",
-    recommendedMeal: "Grilled Chicken Salad",
-  },
-  {
-    mealID: "ML102",
-    recommendedMeal: "Vegetable Stir Fry",
-  },
-  {
-    mealID: "ML103",
-    recommendedMeal: "Tofu Bowl",
-  },
+    "_id": 1,
+    "action_name": "Rotti with lunu miris",
+    "expert_1": [
+        4,
+        5,
+        8,
+        10
+    ],
+    "expert_2": [
+        2,
+        3,
+        4
+    ]
+},
+{
+    "_id": 2,
+    "action_name": "Brown rice with TOFU , and carrot salad",
+    "expert_1": [
+        5,
+        6,
+        7,
+        11,
+        12
+    ],
+    "expert_2": [
+        2,
+        3,
+        4
+    ]
+},
+{
+    "_id": 3,
+    "action_name": "Sweet potato and coconut scrapes",
+    "expert_1": [
+        1,
+        4,
+        7
+    ],
+    "expert_2": [
+        1,
+        2,
+        3
+    ]
+},
+{
+    "_id": 4,
+    "action_name": "Brown beans with onion mixture",
+    "expert_1": [
+        4,
+        6
+    ],
+    "expert_2": [
+        2
+    ]
+},
+{
+    "_id": 5,
+    "action_name": "Egg White omelette  with bread",
+    "expert_1": [
+        1,
+        7,
+        9,
+        10
+    ],
+    "expert_2": [
+        1,
+        3,
+        4
+    ]
+},
+{
+    "_id": 6,
+    "action_name": "1 cup of brown rice with sausages and dahl curry",
+    "expert_1": [
+        2,
+        3,
+        8
+    ],
+    "expert_2": [
+        1,
+        3
+    ]
+},
+{
+    "_id": 7,
+    "action_name": "Vegetable- mixed noodles with salmon",
+    "expert_1": [
+        3
+    ],
+    "expert_2": [
+        1
+    ]
+},
+{
+    "_id": 8,
+    "action_name": "String Hoppers and Chicken curry",
+    "expert_1": [
+        1,
+        3
+    ],
+    "expert_2": [
+        1
+    ]
+},
+{
+    "_id": 9,
+    "action_name": "Egg Hoppers",
+    "expert_1": [
+        7,
+        9
+    ],
+    "expert_2": [
+        3
+    ]
+},
+{
+    "_id": 10,
+    "action_name": "oats- meal",
+    "expert_1": [
+        1
+    ],
+    "expert_2": [
+        1
+    ]
+},
+{
+    "_id": 11,
+    "action_name": "sweet corn soup with mint salad",
+    "expert_1": [
+        2,
+        8,
+        10
+    ],
+    "expert_2": [
+        1,
+        3,
+        4
+    ]
+},
+{
+    "_id": 12,
+    "action_name": "Butter bean pasta with tomato sauce",
+    "expert_1": [
+        12
+    ],
+    "expert_2": [
+        4
+    ]
+},
+{
+    "_id": 13,
+    "action_name": "lean Chicken and vegetable lettuce wraps",
+    "expert_1": [
+        2,
+        8,
+        9
+    ],
+    "expert_2": [
+        1,
+        4
+    ]
+},
+{
+    "_id": 14,
+    "action_name": "Spicy BBQ pork",
+    "expert_1": [
+        2
+    ],
+    "expert_2": [
+        1
+    ]
+},
+{
+    "_id": 15,
+    "action_name": "Rice, soya meat and potatoes",
+    "expert_1": [
+        3,
+        5,
+        6,
+        9,
+        11,
+        12
+    ],
+    "expert_2": [
+        1,
+        2,
+        3,
+        4
+    ]
+},
+{
+    "_id": 16,
+    "action_name": "smoked markerel with banana bread",
+    "expert_1": [
+        2,
+        3
+    ],
+    "expert_2": [
+        2,
+        3
+    ]
+}
 ];
 
 // Modal Component
@@ -232,9 +429,9 @@ export default function RecommendationsView() {
         <div className="flex items-center">
           <Input
             placeholder="Search Meal ID"
-            value={table.getColumn("mealID")?.getFilterValue() ?? ""}
+            value={table.getColumn("_id")?.getFilterValue() ?? ""}
             onChange={(event) =>
-              table.getColumn("mealID")?.setFilterValue(event.target.value)
+              table.getColumn("_id")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
