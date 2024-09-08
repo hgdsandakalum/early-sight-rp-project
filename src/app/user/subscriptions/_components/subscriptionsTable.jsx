@@ -33,7 +33,7 @@ const SubscriptionsTable = ({ columns }) => {
     try {
       const docId = await localStorage.getItem("userId");
       const response = await fetch(
-        "https://retina-mobile-app-bankend.vercel.app/api/v1//doctor/subscriptions/" + docId,
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" + docId,
         {
           method: "GET",
           headers: {
