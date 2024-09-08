@@ -1,4 +1,5 @@
 export const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+export const BACKEND_BASE_URL2 = process.env.NEXT_PUBLIC_BACKEND_BASE_URL2;
 export const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL;
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const ENVIRONMENT = process.env.NEXT_PUBLIC_ENVIRONMENT;
