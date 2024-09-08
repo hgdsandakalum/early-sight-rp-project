@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic"; // Import dynamic from next/dynamic for SSR support
+
+// import ReactApexChart from "react-apexcharts";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const DiabetesRetinopathyPieChart = () => {
   const [diabetesData, setDiabetesData] = useState([]);
@@ -20,7 +26,9 @@ const DiabetesRetinopathyPieChart = () => {
 
     const fetchRetinopathyData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/retinopathy-data");
+        const response = await axios.get(
+          "http://localhost:5000/retinopathy-data"
+        );
         setRetinopathyData(response.data);
       } catch (error) {
         console.error("Error fetching retinopathy data:", error);
@@ -33,9 +41,12 @@ const DiabetesRetinopathyPieChart = () => {
 
   const calculatePieChart = (diabetesData) => {
     const totalPatients = diabetesData.length;
-    const patientsWithRetinopathy = diabetesData.filter((entry) => entry.prediction === 1).length;
+    const patientsWithRetinopathy = diabetesData.filter(
+      (entry) => entry.prediction === 1
+    ).length;
 
-    const percentageWithRetinopathy = (patientsWithRetinopathy / totalPatients) * 100;
+    const percentageWithRetinopathy =
+      (patientsWithRetinopathy / totalPatients) * 100;
     const percentageWithoutRetinopathy = 100 - percentageWithRetinopathy;
 
     setPieChartData([percentageWithRetinopathy, percentageWithoutRetinopathy]);

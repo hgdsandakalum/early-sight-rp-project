@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic"; // Import dynamic from next/dynamic for SSR support
+// import ReactApexChart from "react-apexcharts";
 import {
   flexRender,
   useReactTable,
@@ -21,6 +22,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const DiabetesTable = () => {
   const [diabetesData, setDiabetesData] = useState([]);
@@ -64,7 +69,9 @@ const DiabetesTable = () => {
   const calculateComparisonChartData = (data) => {
     const patients = data.map((entry) => entry.patient);
     const glucoseData = data.map((entry) => parseFloat(entry.Glucose) || 0);
-    const bloodPressureData = data.map((entry) => parseFloat(entry.BloodPressure) || 0);
+    const bloodPressureData = data.map(
+      (entry) => parseFloat(entry.BloodPressure) || 0
+    );
     const bmiData = data.map((entry) => parseFloat(entry.BMI) || 0);
     const ageData = data.map((entry) => parseFloat(entry.Age) || 0);
 
@@ -84,7 +91,10 @@ const DiabetesTable = () => {
     { accessorKey: "SkinThickness", header: "Skin Thickness" },
     { accessorKey: "Insulin", header: "Insulin" },
     { accessorKey: "BMI", header: "BMI" },
-    { accessorKey: "DiabetesPedigreeFunction", header: "Diabetes Pedigree Function" },
+    {
+      accessorKey: "DiabetesPedigreeFunction",
+      header: "Diabetes Pedigree Function",
+    },
     { accessorKey: "Age", header: "Age" },
     { accessorKey: "Outcome", header: "Outcome" },
   ];
@@ -215,7 +225,10 @@ const DiabetesTable = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
                     No results.
                   </TableCell>
                 </TableRow>

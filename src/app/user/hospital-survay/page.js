@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic"; // Import dynamic from next/dynamic for SSR support
 import axios from "axios";
-import ReactApexChart from "react-apexcharts";
+// import ReactApexChart from "react-apexcharts";
 import {
   flexRender,
   useReactTable,
@@ -22,6 +23,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
+
 const RetinopathyTable = () => {
   const [retinopathyData, setRetinopathyData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,10 +38,15 @@ const RetinopathyTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/retinopathy-data");
+        const response = await axios.get(
+          "http://localhost:5000/retinopathy-data"
+        );
         const transformedData = response.data.map((entry, index) => ({
           patient: `Patient ${index + 1}`,
-          Gender: entry.data.Gender && entry.data.Gender[0] ? entry.data.Gender[0] : "N/A",
+          Gender:
+            entry.data.Gender && entry.data.Gender[0]
+              ? entry.data.Gender[0]
+              : "N/A",
           DiabetesType:
             entry.data["Diabetes Type"] && entry.data["Diabetes Type"][0]
               ? entry.data["Diabetes Type"][0]
@@ -50,7 +60,8 @@ const RetinopathyTable = () => {
               ? entry.data["Diastolic BP"][0]
               : "N/A",
           EstimatedAvgGlucose:
-            entry.data["Estimated Avg Glucose (mg/dL)"] && entry.data["Estimated Avg Glucose (mg/dL)"][0]
+            entry.data["Estimated Avg Glucose (mg/dL)"] &&
+            entry.data["Estimated Avg Glucose (mg/dL)"][0]
               ? entry.data["Estimated Avg Glucose (mg/dL)"][0]
               : "N/A",
           HbA1c:
@@ -79,11 +90,19 @@ const RetinopathyTable = () => {
 
   const calculateComparisonChartData = (data) => {
     const patients = data.map((entry) => entry.patient);
-    const yearsSinceDiagnosisData = data.map((entry) => parseFloat(entry.YearsSinceDiagnosis) || 0);
-    const diastolicBPData = data.map((entry) => parseFloat(entry.DiastolicBP) || 0);
-    const estimatedGlucoseData = data.map((entry) => parseFloat(entry.EstimatedAvgGlucose) || 0);
+    const yearsSinceDiagnosisData = data.map(
+      (entry) => parseFloat(entry.YearsSinceDiagnosis) || 0
+    );
+    const diastolicBPData = data.map(
+      (entry) => parseFloat(entry.DiastolicBP) || 0
+    );
+    const estimatedGlucoseData = data.map(
+      (entry) => parseFloat(entry.EstimatedAvgGlucose) || 0
+    );
     const hbA1cData = data.map((entry) => parseFloat(entry.HbA1c) || 0);
-    const systolicBPData = data.map((entry) => parseFloat(entry.SystolicBP) || 0);
+    const systolicBPData = data.map(
+      (entry) => parseFloat(entry.SystolicBP) || 0
+    );
 
     setComparisonChartData({
       categories: patients,
@@ -100,7 +119,10 @@ const RetinopathyTable = () => {
     { accessorKey: "DiabetesType", header: "Diabetes Type" },
     { accessorKey: "YearsSinceDiagnosis", header: "Years Since Diagnosis" },
     { accessorKey: "DiastolicBP", header: "Diastolic BP" },
-    { accessorKey: "EstimatedAvgGlucose", header: "Estimated Avg Glucose (mg/dL)" },
+    {
+      accessorKey: "EstimatedAvgGlucose",
+      header: "Estimated Avg Glucose (mg/dL)",
+    },
     { accessorKey: "HbA1c", header: "HbA1c (mmol/mol)" },
     { accessorKey: "SystolicBP", header: "Systolic BP" },
   ];
@@ -185,7 +207,7 @@ const RetinopathyTable = () => {
   ];
 
   return (
-  <>
+    <>
       <div>
         <h2>Retinopathy Data</h2>
         <div className="flex items-center justify-between py-4">
@@ -235,7 +257,10 @@ const RetinopathyTable = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
                     No results.
                   </TableCell>
                 </TableRow>
@@ -280,7 +305,7 @@ const RetinopathyTable = () => {
           </div>
         </div>
       </div>
-   </>
+    </>
   );
 };
 

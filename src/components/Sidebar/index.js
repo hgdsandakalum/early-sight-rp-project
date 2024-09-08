@@ -300,28 +300,31 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <span className="flex items-center gap-2">
                     {/* SVG icon for Predicted Results */}
                     <svg
-  className="fill-current"
-  width="20"
-  height="21"
-  viewBox="0 0 18 19"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clipPath="url(#clip0_130_9763)">
-    <path
-      d="M9 1.05212C4.582 1.05212 1 4.63412 1 9.05212C1 13.4701 4.582 17.0521 9 17.0521C13.418 17.0521 17 13.4701 17 9.05212C17 4.63412 13.418 1.05212 9 1.05212ZM9 15.0521C5.686 15.0521 3 12.3654 3 9.05212C3 5.73812 5.686 3.05212 9 3.05212C12.314 3.05212 15 5.73812 15 9.05212C15 12.3654 12.314 15.0521 9 15.0521ZM8 11.5521L5.5 9.05212L6.573 7.97912L8 9.40712L11.427 5.97912L12.5 7.05212L8 11.5521Z"
-      fill="currentColor"
-    />
-  </g>
-  <defs>
-    <clipPath id="clip0_130_9763">
-      <rect width="18" height="18" fill="white" transform="translate(0 0.052124)" />
-    </clipPath>
-  </defs>
-</svg>
-
-                    
-Predictions
+                      className="fill-current"
+                      width="20"
+                      height="21"
+                      viewBox="0 0 18 19"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clipPath="url(#clip0_130_9763)">
+                        <path
+                          d="M9 1.05212C4.582 1.05212 1 4.63412 1 9.05212C1 13.4701 4.582 17.0521 9 17.0521C13.418 17.0521 17 13.4701 17 9.05212C17 4.63412 13.418 1.05212 9 1.05212ZM9 15.0521C5.686 15.0521 3 12.3654 3 9.05212C3 5.73812 5.686 3.05212 9 3.05212C12.314 3.05212 15 5.73812 15 9.05212C15 12.3654 12.314 15.0521 9 15.0521ZM8 11.5521L5.5 9.05212L6.573 7.97912L8 9.40712L11.427 5.97912L12.5 7.05212L8 11.5521Z"
+                          fill="currentColor"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_130_9763">
+                          <rect
+                            width="18"
+                            height="18"
+                            fill="white"
+                            transform="translate(0 0.052124)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    Predictions
                   </span>
                   {/* Dropdown Icon */}
                   <svg
@@ -343,70 +346,73 @@ Predictions
                       <Link
                         href="/user/pred-Results-retinopathy"
                         className={`group flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                          pathname.includes("retinopathy") &&
+                          pathname.includes("/user/pred-Results-retinopathy") &&
                           "bg-slate-900 text-white"
                         }`}
                       >
                         {/* SVG icon for Retinopathy Prediction */}
                         <svg
-  className="fill-current"
-  width="18"
-  height="19"
-  viewBox="0 0 18 19"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clipPath="url(#clip0_130_9763)">
-    <path
-      d="M9 1.05212C5 1.05212 1.705 3.48912 0 9.05212C1.705 14.6151 5 17.0521 9 17.0521C13 17.0521 16.295 14.6151 18 9.05212C16.295 3.48912 13 1.05212 9 1.05212ZM9 15.0521C6 15.0521 3.684 12.8851 2.135 9.05212C3.684 5.21912 6 3.05212 9 3.05212C12 3.05212 14.316 5.21912 15.865 9.05212C14.316 12.8851 12 15.0521 9 15.0521ZM9 6.05212C7.346 6.05212 6 7.39812 6 9.05212C6 10.7061 7.346 12.0521 9 12.0521C10.654 12.0521 12 10.7061 12 9.05212C12 7.39812 10.654 6.05212 9 6.05212ZM9 10.6021C8.224 10.6021 7.602 9.98012 7.602 9.05212C7.602 8.12412 8.224 7.50212 9 7.50212C9.776 7.50212 10.398 8.12412 10.398 9.05212C10.398 9.98012 9.776 10.6021 9 10.6021Z"
-      fill="currentColor"
-    />
-  </g>
-  <defs>
-    <clipPath id="clip0_130_9763">
-      <rect width="18" height="18" fill="white" transform="translate(0 0.052124)" />
-    </clipPath>
-  </defs>
-</svg>
-
-
-Retinopathy
+                          className="fill-current"
+                          width="18"
+                          height="19"
+                          viewBox="0 0 18 19"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clipPath="url(#clip0_130_9763)">
+                            <path
+                              d="M9 1.05212C5 1.05212 1.705 3.48912 0 9.05212C1.705 14.6151 5 17.0521 9 17.0521C13 17.0521 16.295 14.6151 18 9.05212C16.295 3.48912 13 1.05212 9 1.05212ZM9 15.0521C6 15.0521 3.684 12.8851 2.135 9.05212C3.684 5.21912 6 3.05212 9 3.05212C12 3.05212 14.316 5.21912 15.865 9.05212C14.316 12.8851 12 15.0521 9 15.0521ZM9 6.05212C7.346 6.05212 6 7.39812 6 9.05212C6 10.7061 7.346 12.0521 9 12.0521C10.654 12.0521 12 10.7061 12 9.05212C12 7.39812 10.654 6.05212 9 6.05212ZM9 10.6021C8.224 10.6021 7.602 9.98012 7.602 9.05212C7.602 8.12412 8.224 7.50212 9 7.50212C9.776 7.50212 10.398 8.12412 10.398 9.05212C10.398 9.98012 9.776 10.6021 9 10.6021Z"
+                              fill="currentColor"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_130_9763">
+                              <rect
+                                width="18"
+                                height="18"
+                                fill="white"
+                                transform="translate(0 0.052124)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        Retinopathy
                       </Link>
                     </li>
                     <li>
                       <Link
                         href="/user/pred-Results-diabetic"
                         className={`group flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                          pathname.includes("diabetes") &&
+                          pathname.includes("/user/pred-Results-diabetic") &&
                           "bg-slate-900 text-white"
                         }`}
                       >
                         {/* SVG icon for Diabetic Prediction */}
                         <svg
-  className="fill-current"
-  width="18"
-  height="19"
-  viewBox="0 0 18 19"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clipPath="url(#clip0_130_9763)">
-    <path
-      d="M9 1.05212C4.582 1.05212 1 4.63412 1 9.05212C1 13.4701 4.582 17.0521 9 17.0521C13.418 17.0521 17 13.4701 17 9.05212C17 4.63412 13.418 1.05212 9 1.05212ZM9 15.6114C5.686 15.6114 3 12.9254 3 9.05212C3 5.17812 5.686 2.49212 9 2.49212C12.314 2.49212 15 5.17812 15 9.05212C15 12.9254 12.314 15.6114 9 15.6114ZM9.5 6.05212V10.6021L12.5 12.0521L11.75 13.4521L8 11.6021V6.05212H9.5Z"
-      fill="currentColor"
-    />
-  </g>
-  <defs>
-    <clipPath id="clip0_130_9763">
-      <rect width="18" height="18" fill="white" transform="translate(0 0.052124)" />
-    </clipPath>
-  </defs>
-</svg>
-
-
-
-
-
+                          className="fill-current"
+                          width="18"
+                          height="19"
+                          viewBox="0 0 18 19"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clipPath="url(#clip0_130_9763)">
+                            <path
+                              d="M9 1.05212C4.582 1.05212 1 4.63412 1 9.05212C1 13.4701 4.582 17.0521 9 17.0521C13.418 17.0521 17 13.4701 17 9.05212C17 4.63412 13.418 1.05212 9 1.05212ZM9 15.6114C5.686 15.6114 3 12.9254 3 9.05212C3 5.17812 5.686 2.49212 9 2.49212C12.314 2.49212 15 5.17812 15 9.05212C15 12.9254 12.314 15.6114 9 15.6114ZM9.5 6.05212V10.6021L12.5 12.0521L11.75 13.4521L8 11.6021V6.05212H9.5Z"
+                              fill="currentColor"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_130_9763">
+                              <rect
+                                width="18"
+                                height="18"
+                                fill="white"
+                                transform="translate(0 0.052124)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
                         Diabetic
                       </Link>
                     </li>
@@ -418,7 +424,7 @@ Retinopathy
                 <Link
                   href="/user/recommendations-view"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                    pathname.includes("predResults") &&
+                    pathname.includes("/user/recommendations-view") &&
                     "bg-slate-900 text-white"
                   }`}
                 >
@@ -459,36 +465,37 @@ Retinopathy
                 <Link
                   href="/user/hospital-survay"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                    pathname.includes("predResults") &&
+                    pathname.includes("/user/hospital-survay") &&
                     "bg-slate-900 text-white"
                   }`}
                 >
-       
-
-
-       <svg
-  className="fill-current"
-  width="18"
-  height="19"
-  viewBox="0 0 18 19"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clipPath="url(#clip0_130_9763)">
-    <path
-      d="M3 2.05212C2.448 2.05212 2 2.50012 2 3.05212V16.0521C2 16.6041 2.448 17.0521 3 17.0521H15C15.552 17.0521 16 16.6041 16 16.0521V3.05212C16 2.50012 15.552 2.05212 15 2.05212H3ZM3 16.0521V3.05212H15V16.0521H3ZM8 4.05212H10V6.05212H12V8.05212H10V10.0521H8V8.05212H6V6.05212H8V4.05212ZM5 12.0521H13V15.0521H5V12.0521Z"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1"
-    />
-  </g>
-  <defs>
-    <clipPath id="clip0_130_9763">
-      <rect width="18" height="18" fill="white" transform="translate(0 0.052124)" />
-    </clipPath>
-  </defs>
-</svg>
-
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clipPath="url(#clip0_130_9763)">
+                      <path
+                        d="M3 2.05212C2.448 2.05212 2 2.50012 2 3.05212V16.0521C2 16.6041 2.448 17.0521 3 17.0521H15C15.552 17.0521 16 16.6041 16 16.0521V3.05212C16 2.50012 15.552 2.05212 15 2.05212H3ZM3 16.0521V3.05212H15V16.0521H3ZM8 4.05212H10V6.05212H12V8.05212H10V10.0521H8V8.05212H6V6.05212H8V4.05212ZM5 12.0521H13V15.0521H5V12.0521Z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_130_9763">
+                        <rect
+                          width="18"
+                          height="18"
+                          fill="white"
+                          transform="translate(0 0.052124)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
                   Clinical Trials
                 </Link>
               </li>
@@ -498,7 +505,8 @@ Retinopathy
                 <Link
                   href="/user/settings"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
-                    pathname.includes("settings") && "bg-slate-900 text-white"
+                    pathname.includes("/user/settings") &&
+                    "bg-slate-900 text-white"
                   }`}
                 >
                   <svg

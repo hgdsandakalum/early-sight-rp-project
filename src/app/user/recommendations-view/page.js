@@ -298,8 +298,8 @@ export default function RecommendationsView() {
         </div>
         <Button onClick={() => setIsModalOpen(true)}>
           <div className="flex">
-            <Plus className="mr-1" />
-            <span className="hidden sm:block">Add New Meal</span>
+            <Plus className="mr-1 text-white" />
+            <span className="hidden sm:block text-white">Add New Meal</span>
           </div>
         </Button>
       </div>
@@ -307,7 +307,7 @@ export default function RecommendationsView() {
       {/* Table */}
       <div className="rounded-md border">
         <Table>
-          <TableHeader className="text-xs sm:text-sm">
+          <TableHeader className="text-xs sm:text-sm ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
