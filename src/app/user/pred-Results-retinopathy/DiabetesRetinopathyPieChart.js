@@ -16,7 +16,7 @@ const DiabetesRetinopathyPieChart = () => {
   useEffect(() => {
     const fetchDiabetesData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/diabetes-data");
+        const response = await axios.get("http://155.248.225.224:8091/diabetes-data");
         setDiabetesData(response.data);
         calculatePieChart(response.data);
       } catch (error) {
@@ -27,7 +27,7 @@ const DiabetesRetinopathyPieChart = () => {
     const fetchRetinopathyData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/retinopathy-data"
+          "http://155.248.225.224:8091/retinopathy-data"
         );
         setRetinopathyData(response.data);
       } catch (error) {
