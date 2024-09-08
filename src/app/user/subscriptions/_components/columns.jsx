@@ -113,7 +113,7 @@ export const columns = [
       const handleRemoveSubscription = async (id) => {
         try {
           const response = await fetch(
-            "http://localhost:3005/api/v1/doctor/subscriptions/" + id,
+            "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" + id,
             {
               method: "DELETE",
               headers: {

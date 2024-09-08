@@ -68,7 +68,7 @@ const AddNewSubscriptionModal = () => {
       console.log("hey")
       const docId = await localStorage.getItem("userId")
       const response = await fetch(
-        "http://localhost:3005/api/v1/doctor/invite/" + docId,
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/invite/" + docId,
         {
           method: "POST",
           headers: {
