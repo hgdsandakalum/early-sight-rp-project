@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import {
+  ColumnDef,
   flexRender,
   SortingState,
   getCoreRowModel,
@@ -23,20 +24,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { PatientAddModal } from "./patient-add-modal";
-import { RemoveDialog } from "./RemoveDialog";
+import { Patient } from "../../../../../types";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+// import { RemoveDialog } from "./RemoveDialog";
 
-export function DataTable({ columns, data }) {
+type DataTableProps = {
+  columns: any;
+  data: Patient[];
+};
+
+export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
@@ -49,10 +56,11 @@ export function DataTable({ columns, data }) {
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center">
           <Input
+            type="text"
             placeholder="Search Patient ID"
-            value={table.getColumn("patientID")?.getFilterValue() ?? ""}
-            onChange={(event) =>
-              table.getColumn("patientID")?.setFilterValue(event.target.value)
+            value={(table.getColumn("id")?.getFilterValue() ?? "") as string}
+            onChange={(event: any) =>
+              table.getColumn("id")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -73,18 +81,9 @@ export function DataTable({ columns, data }) {
             />
           </svg>
         </div>
-        <PatientAddModal />
-        {/* <Dialog>
+        <Suspense>
           <PatientAddModal />
-          <DialogTrigger>
-            <Button onClick={() => setIsModalOpen(true)}>
-              <div className="flex">
-                <Plus className="mr-1" />
-                <span className="hidden sm:block">Add New Patient</span>
-              </div>
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
+        </Suspense>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -108,7 +107,7 @@ export function DataTable({ columns, data }) {
           </TableHeader>
           <TableBody className="text-xs sm:text-sm">
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows?.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -156,4 +155,4 @@ export function DataTable({ columns, data }) {
       </div>
     </div>
   );
-}
+};
