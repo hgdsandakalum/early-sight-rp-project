@@ -39,7 +39,7 @@ const RetinopathyTable = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/retinopathy-data"
+          "http://155.248.225.224:8091/retinopathy-data"
         );
         const transformedData = response.data.map((entry, index) => ({
           patient: `Patient ${index + 1}`,
