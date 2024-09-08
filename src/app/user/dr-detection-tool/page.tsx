@@ -4,7 +4,7 @@ import DRImageUpload from "./_components/DRImageUpload";
 import DRResults from "./_components/DRResults";
 import PatientCard from "./_components/PatientCard";
 import LatestRetinaImages from "./_components/LatestRetinaImages";
-import { getPatientByID, getPatientEyes } from "@/services";
+import { getPatientByID, getPatientEyes, classifyImage } from "@/services";
 import { Patient } from "../../../../types";
 
 const DRToolPage = () => {
@@ -14,6 +14,15 @@ const DRToolPage = () => {
     leftEyeImage: "",
     rightEyeImage: "",
   });
+  const [patientProcessedEyes, setPatientProcessedEyes] = useState({
+    leftEyeImage: "",
+    rightEyeImage: "",
+  });
+  const [patientEyesResult, setPatientEyesResult] = useState({
+    leftEyeImage: "",
+    rightEyeImage: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleIsPatient = async (id: string) => {
     await fetchPatient(id);
@@ -56,14 +65,49 @@ const DRToolPage = () => {
     }
   };
 
+  const getPrediction = async (image: string) => {
+    try {
+      const byteCharacters = atob(image.split(",")[1]);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      // Create a blob from the binary data
+      const blob = new Blob([byteArray], { type: "image/png" });
+
+      const file = new File([blob], "image.png", { type: "image/png" });
+
+      const data = await classifyImage(file);
+
+      return data;
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   return (
     <>
       <div className="grid grid-cols-12 gap-4 md:mt-2 md:gap-6 2xl:mt-3 2xl:gap-7">
         <div className="col-span-12 xl:col-span-4">
-          <DRImageUpload handleIsPatient={handleIsPatient} />
+          <DRImageUpload
+            handleIsPatient={handleIsPatient}
+            setPatientProcessedEyes={setPatientProcessedEyes}
+            getPrediction={getPrediction}
+            setPatientEyesResult={setPatientEyesResult}
+            setIsLoading={setIsLoading}
+            isLoading={isLoading}
+          />
         </div>
         <div className="col-span-12 xl:col-span-8">
-          <DRResults />
+          <DRResults
+            patientProcessedEyes={patientProcessedEyes}
+            patientEyesResult={patientEyesResult}
+            isLoading={isLoading}
+          />
         </div>
         {isPatient && (
           <>

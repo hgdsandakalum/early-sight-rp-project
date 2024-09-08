@@ -37,7 +37,7 @@ const LatestRetinaImages = ({ patientEyes }) => {
               </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
-                  src={`data:image/png;base64,${patientEyes.leftEyeImage}`}
+                  src={`data:image/png;base64,${patientEyes.rightEyeImage}`}
                   style={{ objectFit: "cover" }}
                   width={64}
                   height={64}

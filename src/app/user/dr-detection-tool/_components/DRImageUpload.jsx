@@ -1,13 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { addPatientEye } from "@/services";
+import { addPatientEye, preProcessImage } from "@/services";
 
-const DRImageUpload = ({ handleIsPatient }) => {
+const DRImageUpload = ({
+  handleIsPatient,
+  setPatientProcessedEyes,
+  getPrediction,
+  setPatientEyesResult,
+  setIsLoading,
+  isLoading,
+}) => {
   const [patientId, setPatientId] = useState("");
   const [leftEyeImage, setLeftEyeImage] = useState(null);
   const [rightEyeImage, setRightEyeImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitDisable, setIsSubmitDisable] = useState(true);
+
   const [message, setMessage] = useState("");
 
   const handleInputChange = (e) => {
@@ -26,6 +34,7 @@ const DRImageUpload = ({ handleIsPatient }) => {
   const getpatientData = (e) => {
     e.preventDefault();
     handleIsPatient(patientId);
+    setIsSubmitDisable(false);
   };
 
   const handleSubmit = async (e) => {
@@ -39,13 +48,35 @@ const DRImageUpload = ({ handleIsPatient }) => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("patientId", patientId);
-    formData.append("leftEyeImage", leftEyeImage);
-    formData.append("rightEyeImage", rightEyeImage);
-
     try {
-      const data = await addPatientEye(formData);
+      const preProcessImageLeft = await preProcessImage(leftEyeImage);
+      const preProcessImageRight = await preProcessImage(rightEyeImage);
+
+      const data = await addPatientEye(
+        patientId,
+        preProcessImageLeft.base64,
+        preProcessImageRight.base64
+      );
+
+      setPatientProcessedEyes({
+        leftEyeImage: preProcessImageLeft.base64,
+        rightEyeImage: preProcessImageRight.base64,
+      });
+
+      const predictLeft = await getPrediction(preProcessImageLeft.base64);
+      const predictRight = await getPrediction(preProcessImageRight.base64);
+
+      console.log(
+        "predictLeft",
+        predictLeft.predicted_index,
+        predictLeft.prediction_scores
+      );
+
+      setPatientEyesResult({
+        leftEyeImage: predictLeft,
+        rightEyeImage: predictRight,
+      });
+
       setMessage("Images uploaded successfully");
       handleIsPatient(patientId);
     } catch (error) {
@@ -123,8 +154,10 @@ const DRImageUpload = ({ handleIsPatient }) => {
             </div>
 
             <button
-              disabled={isLoading}
-              className="flex w-full justify-center rounded bg-primary p-3 font-medium text-white hover:opacity-90"
+              disabled={isSubmitDisable}
+              className={`${
+                isSubmitDisable ? "cursor-not-allowed " : ""
+              }flex w-full justify-center rounded bg-primary p-3 font-medium text-white hover:opacity-90`}
             >
               {isLoading ? "Uploading..." : "Submit"}
             </button>
