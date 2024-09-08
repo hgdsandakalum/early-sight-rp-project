@@ -90,7 +90,7 @@ const RegisterForm = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3005/api/v1/doctor/register",
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/register",
         {
           method: "POST",
           headers: {
