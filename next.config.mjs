@@ -14,7 +14,6 @@ let nextConfig = {
   
   if (process?.env?.NEXT_PUBLIC_ENVIRONMENT != "local") {
     nextConfig = {
-      output: "export",
       trailingSlash: true,
       basePath: process?.env?.NEXT_PUBLIC_BASE_URL,
       images: {

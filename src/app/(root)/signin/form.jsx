@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 const LoginForm = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [formError, setFormError] = useState("");
 
   const handleChange = (e) => {
@@ -24,7 +24,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5001/api/auth/login", {
+      const response = await fetch("http://localhost:3005/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,12 +38,12 @@ const LoginForm = () => {
         throw new Error(errorData.message || "Login failed");
       }
 
-      const { token, userId } = await response.json();
+      const { data} = await response.json();
 
       // Store the token in localStorage or a secure cookie
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userId", userId);
-
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userId", data.otherDetails._id);
+      localStorage.setItem("user", data.otherDetails);
       // Show success message
       toast.success("Logged in successfully");
 
@@ -75,14 +75,14 @@ const LoginForm = () => {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Username
+              Email
             </label>
             <div className="mt-1">
               <input
                 type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
+                name="email"
+                placeholder="Email"
+                value={formData.email}
                 onChange={handleChange}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -115,6 +115,17 @@ const LoginForm = () => {
             </Button>
           </div>
         </form>
+
+        <div className="flex flex-row justify-end">
+          <span
+            className=" underline cursor-pointer"
+            onClick={() => {
+              router.push("/signup");
+            }}
+          >
+            Register now
+          </span>
+        </div>
       </div>
     </>
   );
