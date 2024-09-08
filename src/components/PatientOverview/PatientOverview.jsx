@@ -6,7 +6,7 @@ import {columns} from "@/components/DetailedEyeResultTable/columns"
 import DetailedEyeResultTable from "@/components/DetailedEyeResultTable/DetailedEyeResultTable"
 const PatientOverview = () => {
   const [user, setUser] = useState({
-    name: "ssss",
+    name: "",
     username: "",
     email: "",
     age: "",
@@ -22,7 +22,7 @@ const PatientOverview = () => {
     const id = urlParts[urlParts.length - 2];
 
     const userData = await axios.get(
-      "http://192.168.8.138:3005/api/v1/auth/find-by-id/" + id
+      "https://retina-mobile-app-bankend.vercel.app/api/v1/auth/find-by-id/" + id
     );
 
     function calculateAge(dob) {
@@ -56,7 +56,7 @@ const PatientOverview = () => {
       <div className=" shadow-2xl px-10 py-10 rounded-lg">
         <div className=" flex flex-row gap-5 ">
           <div className=" w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center">
-            <span className=" text-2xl font-bold">LS</span>
+            <span className=" text-2xl font-bold">JE</span>
           </div>
 
           <div className=" flex flex-row justify-between gap-40">

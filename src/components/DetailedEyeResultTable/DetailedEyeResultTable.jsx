@@ -32,7 +32,7 @@ const DetailedEyeResultTable = ({ columns }) => {
       const urlParts = window.location.href.split("/");
       const id = urlParts[urlParts.length - 2];
       const response = await axios.get(
-        "http://localhost:3005/api/v1/test-results/all-results/" +
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/all-results/" +
           id +
           `?month=${
             new Date().getMonth() + 1
