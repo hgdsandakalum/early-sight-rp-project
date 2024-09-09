@@ -463,7 +463,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               <li>
                 <Link
-                  href="/user/hospital-survay"
+                  href="http://localhost:3001/"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
                     pathname.includes("/user/hospital-survay") &&
                     "bg-slate-900 text-white"
