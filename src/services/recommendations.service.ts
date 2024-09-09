@@ -16,7 +16,7 @@ const getRecommendations = async () => {
 
 const addMeals = async (action_name: string, states: number[]) => {
   try {
-    const response = await httpPost(`URLV3`, {
+    const response = await httpPost(`${URLV3}`, {
       action_name: action_name,
       states: states,
     });
