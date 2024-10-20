@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { useAuthStore } from "@/store";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";   
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const router = useRouter();
