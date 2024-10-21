@@ -22,7 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import DiabetesRetinopathyPieChart from "./DiabetesRetinopathyPieChart";
+import DiabetesRetinopathyPieChart from "./_components/DiabetesRetinopathyPieChart";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
