@@ -8,10 +8,6 @@ import retinacarelogo from "@/assets/img/retinacarelogo.png";
 import { toast } from "sonner";
 import { Tabs } from "antd";
 
-const USER_SERVICE_URL =
-  process.env.NEXT_PUBLIC_USER_SERVICE_URL ||
-  "https://user-service-rho.vercel.app";
-
 const LoginForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -48,7 +44,7 @@ const LoginForm = () => {
 
     const endpoint = isEmailLogin
       ? "https://retina-mobile-app-bankend.vercel.app/api/v1/auth/login"
-      : `${USER_SERVICE_URL}/api/auth/login`;
+      : `${process.env.NEXT_PUBLIC_USER_SERVICE_URL}/api/auth/login`;
 
     try {
       const response = await fetch(endpoint, {
