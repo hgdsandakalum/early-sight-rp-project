@@ -8,19 +8,20 @@ const VerticalProgress = ({ progress }) => {
   const [stage4, setStage4] = useState(false);
 
   useEffect(() => {
-    if (progress >= 80) {
+    console.log("progress", progress);
+    if (progress >= 4) {
       setStage1(true);
       setStage2(true);
       setStage3(true);
       setStage4(true);
-    } else if (progress >= 60) {
+    } else if (progress >= 3) {
       setStage1(true);
       setStage2(true);
       setStage3(true);
-    } else if (progress >= 40) {
+    } else if (progress >= 2) {
       setStage1(true);
       setStage2(true);
-    } else if (progress >= 20) {
+    } else if (progress >= 1) {
       setStage1(true);
     }
   }, [progress]);

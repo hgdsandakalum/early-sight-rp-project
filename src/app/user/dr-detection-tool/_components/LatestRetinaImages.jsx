@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import RetinaImage from "../../../../../public/images/retina_img.jpg";
 
-const LatestRetinaImages = () => {
+const LatestRetinaImages = ({ patientEyes }) => {
   const [progressState, setProgressState] = useState(5);
 
   return (
@@ -20,8 +20,10 @@ const LatestRetinaImages = () => {
               </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
-                  src={RetinaImage}
+                  src={`data:image/png;base64,${patientEyes.leftEyeImage}`}
                   style={{ objectFit: "cover" }}
+                  width={64}
+                  height={64}
                   className="h-64 w-64"
                 />
               </div>
@@ -35,8 +37,10 @@ const LatestRetinaImages = () => {
               </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
-                  src={RetinaImage}
+                  src={`data:image/png;base64,${patientEyes.rightEyeImage}`}
                   style={{ objectFit: "cover" }}
+                  width={64}
+                  height={64}
                   className="h-64 w-64"
                 />
               </div>
