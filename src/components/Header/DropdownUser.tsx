@@ -45,7 +45,7 @@ const DropdownUser = () => {
   const handleLogout = () => {
     // delete the token in localStorage
     localStorage.removeItem("authToken");
-    localStorage.removeItem("userId");
+    localStorage.removeItem("userIdRC");
 
     // Show success message
     toast.success("Logged in successfully");
