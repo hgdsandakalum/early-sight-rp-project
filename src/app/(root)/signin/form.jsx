@@ -1,12 +1,9 @@
-import { z } from "zod";
+"use client";
 import { useState, useEffect } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "../../../components/ui/button";
 
-import { Input } from "@/components/ui/input";
 import retinacarelogo from "@/assets/img/retinacarelogo.png";
 import { toast } from "sonner";
 import { Tabs } from "antd";
@@ -97,14 +94,14 @@ const LoginForm = () => {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Username
+              Email
             </label>
             <div className="mt-1">
               <input
                 type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
+                name="email"
+                placeholder="Email"
+                value={formData.email}
                 onChange={handleChange}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
