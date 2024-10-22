@@ -23,7 +23,7 @@ function RootLayout({ children }: RootLayoutProps) {
       setIsLoadingAction(true);
 
       const storedAuthToken = localStorage.getItem("authToken");
-      const storedUserId = localStorage.getItem("userId");
+      const storedUserId = localStorage.getItem("userIdRC");
 
       const fetchUserData = async (userId: string) => {
         const userData = await getCurrentUser(userId);

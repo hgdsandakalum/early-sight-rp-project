@@ -1,13 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   ArrowUpDown,
   MoreHorizontal,
@@ -15,22 +7,16 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { PatientEditModal } from "./patient-edit-modal";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Patient } from "../../../../../types";
+import { Button, Dropdown, Menu, Modal, message } from "antd";
+import type { MenuProps } from "antd";
+import { PatientEditModal } from "./patient-edit-modal";
+import { deletePatient } from "@/services";
 
-let patientID = "";
-
-export const columns: ColumnDef<Patient>[] = [
+const columns = (
+  handleRemove: (patientId: string) => Promise<void>
+): ColumnDef<Patient>[] => [
   {
     accessorKey: "id",
     header: "Patient ID",
@@ -39,7 +25,7 @@ export const columns: ColumnDef<Patient>[] = [
     accessorKey: "firstName",
     header: "Patient Name",
     cell: ({ row }: { row: Row<Patient> }) => {
-      const fullName = row?.original?.firstName + " " + row?.original?.lastName;
+      const fullName = `${row.original.firstName} ${row.original.lastName}`;
       return fullName;
     },
   },
@@ -51,20 +37,6 @@ export const columns: ColumnDef<Patient>[] = [
     accessorKey: "email",
     header: "Email",
   },
-  // {
-  //   accessorKey: "conditions",
-  //   header: () => <div className="">Conditions</div>,
-  //   cell: ({ row }: { row: Row<Patient> }) => {
-  //     const conditions = row?.original?.conditions || [];
-  //     return (
-  //       <div className="flex flex-col">
-  //         {conditions.map((data: string, index: number) => (
-  //           <span key={index}>{data}</span>
-  //         ))}
-  //       </div>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "conditions",
     header: "Conditions",
@@ -74,7 +46,7 @@ export const columns: ColumnDef<Patient>[] = [
     header: ({ column }) => {
       return (
         <Button
-          variant="ghost"
+          type="text"
           className="text-xs sm:text-sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -96,80 +68,79 @@ export const columns: ColumnDef<Patient>[] = [
     header: "Actions",
     cell: ({ row }: { row: Row<Patient> }) => {
       const patient = row.original;
-      const [isRemoveDialog, setIsRemoveDialog] = useState(false);
-      const [isEditDialog, setIsEditDialog] = useState(false);
-      const [patientData, setPatientData] = useState<Patient | null>(null);
+      const [isRemoveModalVisible, setIsRemoveModalVisible] = useState(false);
+      const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+      const [isDeleting, setIsDeleting] = useState(false);
 
-      const removePatient = (id: string) => {
-        setIsRemoveDialog(true);
-        patientID = id;
+      const showRemoveModal = () => {
+        setIsRemoveModalVisible(true);
       };
 
-      const editPatient = (data: Patient) => {
-        setIsEditDialog(true);
-        setPatientData(data);
+      const onRemove = async () => {
+        setIsDeleting(true);
+        try {
+          await handleRemove(patient.id);
+          setIsRemoveModalVisible(false);
+        } finally {
+          setIsDeleting(false);
+        }
       };
+
+      const showEditModal = () => {
+        setIsEditModalVisible(true);
+      };
+
+      const items: MenuProps["items"] = [
+        {
+          key: "1",
+          label: "Copy ID",
+          icon: <Copy className="w-4 h-4" />,
+          onClick: () => navigator.clipboard.writeText(patient.id),
+        },
+        {
+          key: "2",
+          label: "Edit",
+          icon: <SquarePen className="w-4 h-4" />,
+          onClick: showEditModal,
+        },
+        {
+          key: "3",
+          label: "Delete",
+          icon: <Trash2 className="w-4 h-4" />,
+          onClick: showRemoveModal,
+        },
+      ];
 
       return (
         <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(patient.id)}
-              >
-                <Copy className="mr-2 w-5" />
-                Copy
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editPatient(patient)}>
-                <SquarePen className="mr-2 w-5" />
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => removePatient(patient.id)}>
-                <Trash2 className="mr-2 w-5" />
-                Remove
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {/* Edit Dialog */}
-          {patientData && (
-            <PatientEditModal
-              open={isEditDialog}
-              data={patientData}
-              setIsEditDialog={setIsEditDialog}
-            />
-          )}
-          {/* Remove Dialog */}
-          <Dialog open={isRemoveDialog}>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>Edit Patient Details</DialogTitle>
-                <DialogDescription>
-                  Are you really want to remove the patient({patientID}) ?
-                </DialogDescription>
-              </DialogHeader>
+          <Dropdown
+            overlay={<Menu items={items} />}
+            placement="bottomRight"
+            arrow={{ pointAtCenter: true }}
+            trigger={["click"]}
+          >
+            <Button type="text" icon={<MoreHorizontal className="h-4 w-4" />} />
+          </Dropdown>
 
-              <DialogFooter className="sm:justify-start">
-                <Button type="button">Yes</Button>
-                <DialogClose asChild>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={() => setIsRemoveDialog(false)}
-                  >
-                    No
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <Modal
+            title="Remove Patient"
+            open={isRemoveModalVisible}
+            onOk={onRemove}
+            onCancel={() => setIsRemoveModalVisible(false)}
+            confirmLoading={isDeleting}
+          >
+            <p>Are you sure you want to remove the patient ({patient.id})?</p>
+          </Modal>
+
+          <PatientEditModal
+            open={isEditModalVisible}
+            data={patient}
+            setIsEditDialog={setIsEditModalVisible}
+          />
         </>
       );
     },
   },
 ];
+
+export { columns };

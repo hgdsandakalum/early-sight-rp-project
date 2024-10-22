@@ -33,7 +33,13 @@ const formSchema = z.object({
   conditions: z.string().min(1, "Conditions are required"),
 });
 
-export function PatientAddModal() {
+interface PatientAddModalProps {
+  fetchPatients: () => void;
+}
+
+export const PatientAddModal: React.FC<PatientAddModalProps> = ({
+  fetchPatients,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const form = useForm({
@@ -62,7 +68,6 @@ export function PatientAddModal() {
   const handleOk = () => {};
 
   function onSubmit(values: any) {
-    console.log(values);
     savePatients(values);
     setIsModalOpen(false);
     form.reset();
@@ -71,7 +76,7 @@ export function PatientAddModal() {
   const savePatients = async (patient: Patient) => {
     try {
       const data = await addPatient(patient);
-      console.log(data);
+      fetchPatients();
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -251,4 +256,4 @@ export function PatientAddModal() {
       </Modal>
     </>
   );
-}
+};
