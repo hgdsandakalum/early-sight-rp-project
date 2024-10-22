@@ -19,16 +19,16 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import AddNewSubscriptionModal from "./addNewSubscription";
 
-const SubscriptionsTable = ({ columns }) => {
+const appointmentTable = ({ columns }) => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     try {
       const docId = await localStorage.getItem("userId");
       const response = await fetch(
-        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" + docId,
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/channeling/doctor/" +
+          docId,
         {
           method: "GET",
           headers: {
@@ -41,17 +41,14 @@ const SubscriptionsTable = ({ columns }) => {
 
       const result = data?.map((item) => ({
         pId: item.user._id,
-        subscriptionId: item._id,
+        appointmnetId: item._id,
         name: item.user.name,
-        gender: item.user.gender,
         email: item.user.email,
-        subscriptionType: item.subscriptionType,
-        subscriptionStartDate: new Date(
-          item.subscriptionStartDate
-        ).toLocaleDateString(),
-        subscriptionEndDate: new Date(
-          item.subscriptionEndDate
-        ).toLocaleDateString(),
+        date: item.date,
+        time: `${item.timeSlot.start} - ${item.timeSlot.end}`,
+        type: item.type,
+        status: item.status,
+        meetLink: item.meetLink,
       }));
       setData(result);
       return result;
@@ -111,18 +108,18 @@ const SubscriptionsTable = ({ columns }) => {
             />
           </svg>
         </div>
-        <AddNewSubscriptionModal />
+        {/* <AddNewSubscriptionModal /> */}
         {/* <Dialog>
-          <PatientAddModal />
-          <DialogTrigger>
-            <Button onClick={() => setIsModalOpen(true)}>
-              <div className="flex">
-                <Plus className="mr-1" />
-                <span className="hidden sm:block">Add New Patient</span>
-              </div>
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
+        <PatientAddModal />
+        <DialogTrigger>
+          <Button onClick={() => setIsModalOpen(true)}>
+            <div className="flex">
+              <Plus className="mr-1" />
+              <span className="hidden sm:block">Add New Patient</span>
+            </div>
+          </Button>
+        </DialogTrigger>
+      </Dialog> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -196,4 +193,4 @@ const SubscriptionsTable = ({ columns }) => {
   );
 };
 
-export default SubscriptionsTable;
+export default appointmentTable;
