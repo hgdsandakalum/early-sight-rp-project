@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { useRouter } from "next/router";
 import React from "react";
-import PatientOverview from "@/components/PatientOverview/PatientOverview"
+import PatientOverview from "@/components/PatientOverview/PatientOverview";
 
 const page = () => {
   // const router = useRouter();
