@@ -29,11 +29,16 @@ import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 // import { RemoveDialog } from "./RemoveDialog";
 
 type DataTableProps = {
-  columns: any;
+  columns: ColumnDef<Patient>[];
   data: Patient[];
+  fetchPatients: () => void;
 };
 
-export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
+export const DataTable: React.FC<DataTableProps> = ({
+  columns,
+  data,
+  fetchPatients,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -82,7 +87,7 @@ export const DataTable: React.FC<DataTableProps> = ({ columns, data }) => {
           </svg>
         </div>
         <Suspense>
-          <PatientAddModal />
+          <PatientAddModal fetchPatients={fetchPatients} />
         </Suspense>
       </div>
       <div className="rounded-md border">
