@@ -62,7 +62,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const handleLogout = () => {
     console.log("logout fun");
     localStorage.removeItem("authToken");
-    localStorage.removeItem("userId");
+    localStorage.removeItem("userIdRC");
     console.log("logout fun2");
 
     setIsAuthenticatedAction(false);
