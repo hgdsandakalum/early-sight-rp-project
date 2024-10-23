@@ -1,10 +1,11 @@
-
 import React from "react";
 import PatientOverview from "@/components/PatientOverview/PatientOverview";
 
 export async function generateStaticParams() {
   try {
-    const response = await fetch("http://192.168.8.138:3005/api/v1/patients");
+    const response = await fetch(
+      "https://retina-mobile-app-bankend.vercel.app/api/v1/patients"
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch patient IDs");
@@ -16,7 +17,7 @@ export async function generateStaticParams() {
       id: patient._id.toString(),
     }));
     console.log("patientIds ", patientIds);
-    return patientIds
+    return patientIds;
   } catch (error) {
     console.error("Error fetching patient data:", error);
     return [];
@@ -26,7 +27,6 @@ export async function generateStaticParams() {
 const PatientViewPage = () => {
   return (
     <div className="container mx-auto py-6">
-   
       <PatientOverview />
     </div>
   );
