@@ -44,7 +44,7 @@ const LoginForm = () => {
 
     const endpoint = isEmailLogin
       ? "https://retina-mobile-app-bankend.vercel.app/api/v1/auth/login"
-      : "http://localhost:5001/api/auth/login";
+      : `${process.env.NEXT_PUBLIC_USER_SERVICE_URL}/api/auth/login`;
 
     try {
       const response = await fetch(endpoint, {
@@ -94,14 +94,14 @@ const LoginForm = () => {
               htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              Username
             </label>
             <div className="mt-1">
               <input
                 type="text"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
+                name="username"
+                placeholder="Username"
+                value={formData.username}
                 onChange={handleChange}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -154,7 +154,7 @@ const LoginForm = () => {
         <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
               Email
