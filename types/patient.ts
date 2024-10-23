@@ -6,6 +6,7 @@ export type Patient = {
   email: string;
   age: number;
   mobile: string;
+  address?: string;
   conditions: string[];
   nextAppointment: string;
   joinedDate: string;

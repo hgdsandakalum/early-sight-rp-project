@@ -1,5 +1,5 @@
 import { BACKEND_BASE_URL2 } from "@/config";
-import { httpDelete, httpGet, httpPost } from "./http.service";
+import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
@@ -14,6 +14,7 @@ const addPatient = async (patient: Patient) => {
       gender: patient.gender,
       email: patient.email,
       age: patient.age,
+      address: patient.address,
       mobile: patient.mobile,
       conditions: patient.conditions,
     });
@@ -37,6 +38,26 @@ const getAllPatient = async () => {
 const getPatientByID = async (id: string) => {
   try {
     const response = await httpGet(`${URL}/patient/${id}`);
+    const data = response?.data;
+    return data;
+  } catch (error: any) {
+    throw error?.data?.error;
+  }
+};
+
+const updatePatient = async (id: string, patient: Patient) => {
+  try {
+    const response = await httpPut(`${URL}/patient/${id}`, {
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      gender: patient.gender,
+      email: patient.email,
+      age: patient.age,
+      address: patient.address,
+      mobile: patient.mobile,
+      conditions: patient.conditions,
+    });
+
     const data = response?.data;
     return data;
   } catch (error: any) {
@@ -137,6 +158,7 @@ export {
   getAllPatient,
   addPatient,
   getPatientByID,
+  updatePatient,
   deletePatient,
   getPatientEyes,
   addPatientEye,

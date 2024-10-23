@@ -6,16 +6,18 @@ import {
   Copy,
   SquarePen,
   Trash2,
+  QrCode,
 } from "lucide-react";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Patient } from "../../../../../types";
 import { Button, Dropdown, Menu, Modal, message } from "antd";
 import type { MenuProps } from "antd";
 import { PatientEditModal } from "./patient-edit-modal";
-import { deletePatient } from "@/services";
+import QRCode from "react-qr-code";
 
 const columns = (
-  handleRemove: (patientId: string) => Promise<void>
+  handleRemove: (patientId: string) => Promise<void>,
+  fetchPatients: () => Promise<void>
 ): ColumnDef<Patient>[] => [
   {
     accessorKey: "id",
@@ -70,6 +72,7 @@ const columns = (
       const patient = row.original;
       const [isRemoveModalVisible, setIsRemoveModalVisible] = useState(false);
       const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+      const [isQRModalVisible, setIsQRModalVisible] = useState(false);
       const [isDeleting, setIsDeleting] = useState(false);
 
       const showRemoveModal = () => {
@@ -90,6 +93,10 @@ const columns = (
         setIsEditModalVisible(true);
       };
 
+      const showQRtModal = () => {
+        setIsQRModalVisible(true);
+      };
+
       const items: MenuProps["items"] = [
         {
           key: "1",
@@ -108,6 +115,12 @@ const columns = (
           label: "Delete",
           icon: <Trash2 className="w-4 h-4" />,
           onClick: showRemoveModal,
+        },
+        {
+          key: "4",
+          label: "QR Code",
+          icon: <QrCode className="w-4 h-4" />,
+          onClick: showQRtModal,
         },
       ];
 
@@ -132,10 +145,34 @@ const columns = (
             <p>Are you sure you want to remove the patient ({patient.id})?</p>
           </Modal>
 
+          <Modal
+            footer={<></>}
+            title=""
+            open={isQRModalVisible}
+            onCancel={() => setIsQRModalVisible(false)}
+          >
+            <div
+              style={{
+                height: "auto",
+                margin: "0 auto",
+                maxWidth: 256,
+                width: "100%",
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={patient?.id}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
+          </Modal>
+
           <PatientEditModal
             open={isEditModalVisible}
             data={patient}
             setIsEditDialog={setIsEditModalVisible}
+            fetchPatients={fetchPatients}
           />
         </>
       );

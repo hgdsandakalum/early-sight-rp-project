@@ -21,12 +21,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { Input } from "antd";
 import { PatientAddModal } from "./patient-add-modal";
 import { Patient } from "../../../../../types";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-// import { RemoveDialog } from "./RemoveDialog";
+import { SearchOutlined } from "@ant-design/icons";
 
 type DataTableProps = {
   columns: ColumnDef<Patient>[];
@@ -40,8 +38,9 @@ export const DataTable: React.FC<DataTableProps> = ({
   fetchPatients,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const table = useReactTable({
     data,
@@ -50,41 +49,30 @@ export const DataTable: React.FC<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     state: {
       sorting,
       columnFilters,
+      globalFilter,
     },
   });
+
+  const handleSearch = (value: string) => {
+    table.getColumn("id")?.setFilterValue(value);
+  };
 
   return (
     <div>
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center">
           <Input
-            type="text"
             placeholder="Search Patient ID"
-            value={(table.getColumn("id")?.getFilterValue() ?? "") as string}
-            onChange={(event: any) =>
-              table.getColumn("id")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
+            onChange={(e) => handleSearch(e.target.value)}
+            style={{ width: 200 }}
+            prefix={<SearchOutlined />}
+            allowClear
           />
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="-ml-8"
-          >
-            <path
-              d="M16.6725 16.6412L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
-              stroke="#cbd5e1"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
         </div>
         <Suspense>
           <PatientAddModal fetchPatients={fetchPatients} />

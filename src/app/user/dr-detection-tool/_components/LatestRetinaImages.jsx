@@ -20,11 +20,15 @@ const LatestRetinaImages = ({ patientEyes }) => {
               </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
-                  src={`data:image/png;base64,${patientEyes.leftEyeImage}`}
+                  src={
+                    patientEyes?.leftEyeImage
+                      ? `data:image/png;base64,${patientEyes.leftEyeImage}`
+                      : RetinaImage
+                  }
                   style={{ objectFit: "cover" }}
                   width={64}
                   height={64}
-                  className="h-64 w-64"
+                  className="h-64 w-64 rounded"
                 />
               </div>
             </div>
@@ -37,11 +41,15 @@ const LatestRetinaImages = ({ patientEyes }) => {
               </h5>
               <div className="box-content h-64 w-64 border-4 rounded border-dotted overflow-hidden">
                 <Image
-                  src={`data:image/png;base64,${patientEyes.rightEyeImage}`}
+                  src={
+                    patientEyes?.rightEyeImage
+                      ? `data:image/png;base64,${patientEyes.rightEyeImage}`
+                      : RetinaImage
+                  }
                   style={{ objectFit: "cover" }}
                   width={64}
                   height={64}
-                  className="h-64 w-64"
+                  className="h-64 w-64 rounded"
                 />
               </div>
             </div>

@@ -25,6 +25,7 @@ const Page = () => {
         email: item.email,
         age: item.age,
         mobile: item.mobile,
+        address: item.address,
         conditions: item.conditions,
         nextAppointment: "2024-11-25",
         joinedDate: item.createdAt.split("T")[0],
@@ -46,7 +47,7 @@ const Page = () => {
     }
   };
 
-  const columnsWithRemove = columns(handleRemove);
+  const columnsWithRemove = columns(handleRemove, fetchPatients);
 
   return (
     <>
