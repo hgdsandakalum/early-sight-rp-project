@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Modal, message } from "antd";
 import { addPatientEye, preProcessImage } from "@/services";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 const DRImageUpload = ({
   handleIsPatient,
@@ -15,8 +17,17 @@ const DRImageUpload = ({
   const [leftEyeImage, setLeftEyeImage] = useState(null);
   const [rightEyeImage, setRightEyeImage] = useState(null);
   const [isSubmitDisable, setIsSubmitDisable] = useState(true);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
 
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (!isQrModalOpen) {
+      setIsScanning(false);
+    } else {
+      setIsScanning(true);
+    }
+  }, [isQrModalOpen]);
 
   const handleInputChange = (e) => {
     setPatientId(e.target.value);
@@ -31,19 +42,33 @@ const DRImageUpload = ({
     }
   };
 
-  const getpatientData = (e) => {
-    e.preventDefault();
-    handleIsPatient(patientId);
-    setIsSubmitDisable(false);
+  const handleQrScan = (data) => {
+    if (data && isScanning) {
+      const scannedValue = data[0].rawValue;
+      console.log("scannedValue", scannedValue);
+      setPatientId(scannedValue);
+      handleIsPatient(scannedValue);
+      setIsScanning(false);
+      setIsQrModalOpen(false);
+      setIsSubmitDisable(true);
+      message.success("QR code scanned successfully");
+    }
+  };
+
+  const handleQrError = (err) => {
+    if (isScanning) {
+      console.error(err);
+      message.error("Failed to read QR code");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage("");
+    setErrorMessage("");
 
     if (!patientId || !leftEyeImage || !rightEyeImage) {
-      setMessage("Please fill in all fields");
+      setErrorMessage("Please fill in all fields");
       setIsLoading(false);
       return;
     }
@@ -77,14 +102,24 @@ const DRImageUpload = ({
         rightEyeImage: predictRight,
       });
 
-      setMessage("Images uploaded successfully");
+      setErrorMessage("Images uploaded successfully");
       handleIsPatient(patientId);
     } catch (error) {
       console.error("Error uploading images:", error);
-      setMessage(error || "Error uploading images");
+      setErrorMessage(error || "Error uploading images");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleQrModalOpen = () => {
+    setIsQrModalOpen(true);
+    setIsScanning(true);
+  };
+
+  const handleQrModalClose = () => {
+    setIsQrModalOpen(false);
+    setIsScanning(false);
   };
 
   return (
@@ -110,7 +145,7 @@ const DRImageUpload = ({
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={getpatientData}
+                  onClick={handleQrModalOpen}
                   className="h-auto w-12 bg-primary p-3 hover:bg-slate-700"
                 >
                   <svg
@@ -161,12 +196,32 @@ const DRImageUpload = ({
             >
               {isLoading ? "Uploading..." : "Submit"}
             </button>
-            {message && (
-              <p className="mt-4 text-center text-sm text-red-500">{message}</p>
+            {errorMessage && (
+              <p className="mt-4 text-center text-sm text-red-500">
+                {errorMessage}
+              </p>
             )}
           </div>
         </form>
       </div>
+      <Modal
+        title="Scan QR Code"
+        open={isQrModalOpen}
+        onCancel={handleQrModalClose}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <div className="p-4 w-[500px] h-[500px]">
+          {isQrModalOpen && isScanning && (
+            <Scanner
+              onScan={(result) => handleQrScan(result)}
+              onError={handleQrError}
+              scanDelay={300}
+              style={{ width: "100%" }}
+            />
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };
