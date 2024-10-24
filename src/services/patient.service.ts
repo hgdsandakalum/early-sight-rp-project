@@ -123,9 +123,13 @@ const preProcessImage = async (image: File) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-      timeout: 30000,
       maxContentLength: 50 * 1024 * 1024,
     });
+
+    if (!response?.data?.base64) {
+      throw new Error("Invalid response from preprocessing service");
+    }
+
     const data = response?.data;
     return data;
   } catch (error: any) {
@@ -134,6 +138,9 @@ const preProcessImage = async (image: File) => {
     }
     if (error.response?.status === 413) {
       throw new Error("Image file is too large");
+    }
+    if (error.response?.status === 415) {
+      throw new Error("Unsupported image format");
     }
     throw error?.data?.error || error.message || "Error processing image";
   }
