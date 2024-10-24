@@ -463,7 +463,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               <li>
                 <Link
-                  href="http://155.248.225.224:8092/"
+                  href="https://newwebapp-9hd88lwet-thushan2271gmailcoms-projects.vercel.app/"
                   className={`group relative flex items-center gap-2 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-slate-400 ${
                     pathname.includes("/user/hospital-survay") &&
                     "bg-slate-900 text-white"
@@ -496,7 +496,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Clinical Trials
+                  Clinical Trials Section
                 </Link>
               </li>
 
