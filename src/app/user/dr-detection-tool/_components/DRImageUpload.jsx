@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Modal, message } from "antd";
+import { Modal, message, Button } from "antd";
 import { addPatientEye, preProcessImage } from "@/services";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
@@ -50,7 +49,7 @@ const DRImageUpload = ({
       handleIsPatient(scannedValue);
       setIsScanning(false);
       setIsQrModalOpen(false);
-      setIsSubmitDisable(true);
+      setIsSubmitDisable(false);
       message.success("QR code scanned successfully");
     }
   };
@@ -77,33 +76,35 @@ const DRImageUpload = ({
       const preProcessImageLeft = await preProcessImage(leftEyeImage);
       const preProcessImageRight = await preProcessImage(rightEyeImage);
 
-      const data = await addPatientEye(
-        patientId,
-        preProcessImageLeft.base64,
-        preProcessImageRight.base64
-      );
+      console.log("predictLeft", preProcessImageLeft, preProcessImageRight);
 
-      setPatientProcessedEyes({
-        leftEyeImage: preProcessImageLeft.base64,
-        rightEyeImage: preProcessImageRight.base64,
-      });
+      // const data = await addPatientEye(
+      //   patientId,
+      //   preProcessImageLeft.base64,
+      //   preProcessImageRight.base64
+      // );
 
-      const predictLeft = await getPrediction(preProcessImageLeft.base64);
-      const predictRight = await getPrediction(preProcessImageRight.base64);
+      // setPatientProcessedEyes({
+      //   leftEyeImage: preProcessImageLeft.base64,
+      //   rightEyeImage: preProcessImageRight.base64,
+      // });
 
-      console.log(
-        "predictLeft",
-        predictLeft.predicted_index,
-        predictLeft.prediction_scores
-      );
+      // const predictLeft = await getPrediction(preProcessImageLeft.base64);
+      // const predictRight = await getPrediction(preProcessImageRight.base64);
 
-      setPatientEyesResult({
-        leftEyeImage: predictLeft,
-        rightEyeImage: predictRight,
-      });
+      // console.log(
+      //   "predictLeft",
+      //   predictLeft.predicted_index,
+      //   predictLeft.prediction_scores
+      // );
+
+      // setPatientEyesResult({
+      //   leftEyeImage: predictLeft,
+      //   rightEyeImage: predictRight,
+      // });
 
       setErrorMessage("Images uploaded successfully");
-      handleIsPatient(patientId);
+      // handleIsPatient(patientId);
     } catch (error) {
       console.error("Error uploading images:", error);
       setErrorMessage(error || "Error uploading images");
@@ -112,7 +113,8 @@ const DRImageUpload = ({
     }
   };
 
-  const handleQrModalOpen = () => {
+  const handleQrModalOpen = (e) => {
+    e.preventDefault();
     setIsQrModalOpen(true);
     setIsScanning(true);
   };
@@ -145,24 +147,26 @@ const DRImageUpload = ({
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={handleQrModalOpen}
-                  className="h-auto w-12 bg-primary p-3 hover:bg-slate-700"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="#ffffff"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </Button>
+                  onClick={(e) => handleQrModalOpen(e)}
+                  className="!h-12 !w-12 !bg-primary p-3 hover:bg-slate-700"
+                  htmlType="button"
+                  icon={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="#ffffff"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  }
+                ></Button>
               </div>
             </div>
 

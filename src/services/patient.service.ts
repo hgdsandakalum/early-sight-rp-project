@@ -3,7 +3,7 @@ import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
-const URL2 = `http://localhost:5005/preprocess`;
+const URL2 = `http://ec2-51-21-134-226.eu-north-1.compute.amazonaws.com/preprocess`;
 const URL3 = `http://localhost:5002/predict`;
 
 const addPatient = async (patient: Patient) => {
@@ -124,7 +124,6 @@ const preProcessImage = async (image: File) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    // const response = await httpPost(`${URL2}`, image);
     const data = response?.data;
     return data;
   } catch (error: any) {
