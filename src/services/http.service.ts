@@ -10,7 +10,12 @@ export const httpPost = <T>(
   data: T,
   config?: AxiosRequestConfig
 ) => {
-  return axiosInstance.post(url, data, config);
+  return axiosInstance.post(url, data, {
+    ...config,
+    httpsAgent: new (require("https").Agent)({
+      rejectUnauthorized: false,
+    }),
+  });
 };
 
 export const httpPut = <T>(url: string, data: T) => {
