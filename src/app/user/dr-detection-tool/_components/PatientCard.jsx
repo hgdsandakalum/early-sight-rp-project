@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
-import Barcode from "react-barcode";
+import QRCode from "react-qr-code";
 
 const PatientCard = ({ patient }) => {
   return (
@@ -33,17 +32,15 @@ const PatientCard = ({ patient }) => {
         <span className="text-sm text-gray-500">{patient.joinedDate}</span>
       </div>
       <div className="flex flex-col mt-6">
-        <span className="font-semibold">Barcode</span>
-        <Barcode
-          value={patient.id}
-          height={75}
-          width={2}
-          displayValue={false}
-        />
-        {/* <img
-          src="https://www.pngmart.com/files/10/Barcode-PNG-Pic.png"
-          className="w-[90%]"
-        /> */}
+        <span className="font-semibold">QRCode</span>
+        <div className="max-h-20">
+          <QRCode
+            size={32}
+            style={{ height: "80px", maxWidth: "100%", width: "100%" }}
+            value={patient?.id}
+            viewBox={`0 0 256 256`}
+          />
+        </div>
       </div>
     </div>
   );

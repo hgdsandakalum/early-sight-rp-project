@@ -73,18 +73,38 @@ const DRImageUpload = ({
     }
 
     try {
-      const preProcessImageLeft = await preProcessImage(leftEyeImage);
-      const preProcessImageRight = await preProcessImage(rightEyeImage);
+      console.log("preProcessImage start");
+      let preProcessImageLeft;
+      let preProcessImageRight;
+
+      try {
+        preProcessImageLeft = await preProcessImage(leftEyeImage);
+      } catch (error) {
+        throw new Error(`Left eye image processing failed: ${error.message}`);
+      }
+
+      try {
+        preProcessImageRight = await preProcessImage(rightEyeImage);
+      } catch (error) {
+        throw new Error(`Right eye image processing failed: ${error.message}`);
+      }
+
+      console.log("preProcessImage end");
+
+      if (!preProcessImageLeft?.base64 || !preProcessImageRight?.base64) {
+        throw new Error("Invalid response from preprocessing service");
+      }
 
       const data = await addPatientEye(
         patientId,
-        preProcessImageLeft.base64,
-        preProcessImageRight.base64
+        preProcessImageLeft?.base64,
+        preProcessImageRight?.base64
       );
+      console.log("images saved on db");
 
       setPatientProcessedEyes({
-        leftEyeImage: preProcessImageLeft.base64,
-        rightEyeImage: preProcessImageRight.base64,
+        leftEyeImage: preProcessImageLeft?.base64,
+        rightEyeImage: preProcessImageRight?.base64,
       });
 
       // const predictLeft = await getPrediction(preProcessImageLeft.base64);
