@@ -3,7 +3,7 @@ import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
-const URL2 = `http://ec2-51-21-134-226.eu-north-1.compute.amazonaws.com/preprocess`;
+const URL2 = `https://51.21.134.226/preprocess`;
 const URL3 = `http://localhost:5002/predict`;
 
 const addPatient = async (patient: Patient) => {
@@ -123,11 +123,19 @@ const preProcessImage = async (image: File) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 30000,
+      maxContentLength: 50 * 1024 * 1024,
     });
     const data = response?.data;
     return data;
   } catch (error: any) {
-    throw error?.data?.error;
+    if (error.code === "ECONNREFUSED") {
+      throw new Error("Preprocessing service is not available");
+    }
+    if (error.response?.status === 413) {
+      throw new Error("Image file is too large");
+    }
+    throw error?.data?.error || error.message || "Error processing image";
   }
 };
 
