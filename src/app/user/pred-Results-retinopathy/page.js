@@ -40,7 +40,7 @@ const RetinopathyPredictTable = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://155.248.225.224:8091/retinopathy-data"
+          "https://324aprj.sliit.eye.retino.zeuscorp.co/retinopathy-data"
         );
         const transformedData = response.data.map((entry, index) => ({
           patient: `Patient ${index + 1}`,

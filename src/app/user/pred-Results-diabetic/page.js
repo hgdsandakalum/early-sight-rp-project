@@ -38,7 +38,7 @@ const DiabetesTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://155.248.225.224:8091/diabetes-data");
+        const response = await axios.get("https://324aprj.sliit.eye.retino.zeuscorp.co/diabetes-data");
         const transformedData = response.data.map((entry, index) => ({
           patient: `Patient ${index + 1}`,
           Pregnancies: entry.data[0],
