@@ -1,5 +1,6 @@
 import axiosInstance from "../config/axiosInstance.config";
 import { AxiosRequestConfig } from "axios";
+import https from "https";
 
 export const httpGet = (url: string) => {
   return axiosInstance.get(url);
@@ -12,9 +13,11 @@ export const httpPost = <T>(
 ) => {
   return axiosInstance.post(url, data, {
     ...config,
-    httpsAgent: new (require("https").Agent)({
-      rejectUnauthorized: false,
-    }),
+    withCredentials: false,
+    headers: {
+      ...config?.headers,
+      Accept: "application/json",
+    },
   });
 };
 
