@@ -3,7 +3,7 @@ import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
-const URL2 = `https://52.87.217.114/preprocess`;
+const URL2 = `http://52.87.217.114/preprocess`;
 const URL3 = `http://localhost:5002/predict`;
 
 const addPatient = async (patient: Patient) => {
