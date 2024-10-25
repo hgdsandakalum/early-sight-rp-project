@@ -18,6 +18,9 @@ export const httpPost = <T>(
       ...config?.headers,
       Accept: "application/json",
     },
+    httpsAgent: new (require("https").Agent)({
+      rejectUnauthorized: false,
+    }),
   });
 };
 
