@@ -13,19 +13,11 @@ export const httpPost = <T>(
 ) => {
   return axiosInstance.post(url, data, {
     ...config,
-    withCredentials: false, // Add this for CORS
+    withCredentials: false,
     headers: {
       ...config?.headers,
       Accept: "application/json",
     },
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false, // Only for development/testing
-    }),
-    // Add timeout
-    timeout: 30000, // 30 seconds
-    // Add max content length for large files
-    maxContentLength: 50 * 1024 * 1024, // 50MB
-    maxBodyLength: 50 * 1024 * 1024, // 50MB
   });
 };
 
