@@ -86,7 +86,7 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
 
   return (
     <>
-      <Dialog open={open}>
+      <Dialog open={open} onOpenChange={setIsEditDialog}>
         <DialogContent className="!max-w-xl">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

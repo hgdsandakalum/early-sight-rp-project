@@ -4,7 +4,7 @@ import PatientOverview from "@/components/PatientOverview/PatientOverview";
 
 export async function generateStaticParams() {
   try {
-    const response = await fetch("http://192.168.8.138:3005/api/v1/patients");
+    const response = await fetch("https://retina-mobile-app-bankend.vercel.app/api/v1/patients");
 
     if (!response.ok) {
       throw new Error("Failed to fetch patient IDs");

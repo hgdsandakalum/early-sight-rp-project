@@ -8,7 +8,11 @@ import { useAppStore, useAuthStore } from "@/store";
 import { getCurrentUser } from "@/services";
 import { Loader } from "@/components/loader";
 import { redirect } from "next/navigation";
+import { generateToken, messaging } from "../firebase";
+import { onMessage } from "firebase/messaging";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -62,6 +66,13 @@ function RootLayout({ children }: RootLayoutProps) {
     console.log("user", user);
   }, [user]);
 
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      toast(payload.notification?.body);
+      console.log("payload ", payload);
+    });
+  }, []);
   return (
     <html lang="en" className="h-full bg-white">
       <head>
@@ -77,6 +88,8 @@ function RootLayout({ children }: RootLayoutProps) {
         <AntdRegistry>
           <AntdConfigProvider>{children}</AntdConfigProvider>
         </AntdRegistry>
+
+        <ToastContainer />
       </body>
     </html>
   );

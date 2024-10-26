@@ -92,9 +92,18 @@ const AppointmentViewModal = ({ open, data, setIsEditDialog }) => {
   }
 
   return (
-    <>
-      <Dialog open={open}>
-        <DialogContent className="!max-w-xl">
+    <div>
+      <Dialog open={open} onOpenChange={setIsEditDialog}>
+        <DialogContent
+          className="!max-w-xl"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 9999,
+          }}
+        >
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <DialogHeader>
@@ -253,7 +262,7 @@ const AppointmentViewModal = ({ open, data, setIsEditDialog }) => {
           </Form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };
 

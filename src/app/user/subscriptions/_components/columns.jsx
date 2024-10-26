@@ -138,7 +138,11 @@ export const columns = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" style={{
+                         zIndex: 99999,
+                         backgroundColor: "white",
+                         width: 100,
+            }}>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem onClick={() => views(patient)}>
                 <EyeIcon className="mr-2 w-5" />
