@@ -3,7 +3,7 @@ import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
-const URL2 = `https://52.87.217.114/preprocess`;
+const URL2 = `https://retinacare-prediction-service.us/preprocess`;
 const URL3 = `http://localhost:5002/predict`;
 
 const addPatient = async (patient: Patient) => {
@@ -122,27 +122,25 @@ const preProcessImage = async (image: File) => {
     const response = await httpPost(`${URL2}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Accept: "application/json",
       },
       maxContentLength: 50 * 1024 * 1024,
+      maxBodyLength: 50 * 1024 * 1024,
     });
 
     if (!response?.data?.base64) {
       throw new Error("Invalid response from preprocessing service");
     }
-
-    const data = response?.data;
-    return data;
+    return response.data;
   } catch (error: any) {
-    if (error.code === "ECONNREFUSED") {
-      throw new Error("Preprocessing service is not available");
+    console.error("Preprocessing error:", error);
+    if (error.response) {
+      throw new Error(error.response.data?.message || "Server error");
+    } else if (error.request) {
+      throw new Error("Network error - no response");
+    } else {
+      throw new Error(error.message || "Error processing image");
     }
-    if (error.response?.status === 413) {
-      throw new Error("Image file is too large");
-    }
-    if (error.response?.status === 415) {
-      throw new Error("Unsupported image format");
-    }
-    throw error?.data?.error || error.message || "Error processing image";
   }
 };
 
