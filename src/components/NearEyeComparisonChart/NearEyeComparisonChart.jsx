@@ -137,7 +137,7 @@ const NearEyeComparisonChart = () => {
 
     console.log(url);
     const userData = await axios.get(
-      "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/user-stats/" +
+      "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/user-stats-near/" +
         id +
         `?month=${new Date().getMonth()}&year=${new Date().getFullYear()}`
     );

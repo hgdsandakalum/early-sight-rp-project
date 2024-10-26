@@ -108,7 +108,7 @@ const AppointmentViewModal = ({ open, data, setIsEditDialog }) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <DialogHeader>
                 <DialogTitle className="!text-xl">
-                  Edit Appointment Data
+                  View Appointment Data
                 </DialogTitle>
                 <DialogDescription className="py-4">
                   <div className="grid grid-cols-4 gap-4">

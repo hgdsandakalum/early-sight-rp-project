@@ -18,6 +18,7 @@ export const messaging = getMessaging(app);
 // BKMXYJz8mTaN9KDHHKsD2JL-4A_LtmrjJ28VFk0lmi5pQNygTKYL_8SHn86aC_neDU-_6JEzmKk0U_OxaF9jC4g
 
 export const generateToken = async () => {
+  console.log("hey")
   const permission = await Notification.requestPermission();
 
   if (permission === "granted") {
@@ -43,6 +44,8 @@ export const generateToken = async () => {
         body: JSON.stringify(payload),
       }
     );
+
+    console.log(response)
   }
 };
 

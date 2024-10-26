@@ -36,7 +36,7 @@ const Header = (props) => {
       const docId = await localStorage.getItem("userId");
       const response = await fetch(
         // "https://retina-mobile-app-bankend.vercel.app/api/v1/notification/" +
-        "http://192.168.8.138:3005/api/v1/notificaiton/" + docId,
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/notificaiton/" + docId,
         {
           method: "GET",
           headers: {
