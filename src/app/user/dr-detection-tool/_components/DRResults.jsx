@@ -12,12 +12,12 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
   useEffect(() => {
     if (Array.isArray(patientEyesResult.leftEyeImage.prediction_scores)) {
       setLeftEyeResult(
-        patientEyesResult.leftEyeImage.prediction_scores.join(", ")
+        patientEyesResult?.leftEyeImage?.prediction_scores.join(", ")
       );
     }
     if (Array.isArray(patientEyesResult.rightEyeImage.prediction_scores)) {
       setRightEyeResult(
-        patientEyesResult.rightEyeImage.prediction_scores.join(", ")
+        patientEyesResult?.rightEyeImage?.prediction_scores.join(", ")
       );
     }
 
@@ -31,8 +31,8 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
   }, []);
 
   useEffect(() => {
-    setProgressState(patientEyesResult.leftEyeImage.predicted_index);
-    setProgressState2(patientEyesResult.rightEyeImage.predicted_index);
+    setProgressState(patientEyesResult?.leftEyeImage?.predicted_index);
+    setProgressState2(patientEyesResult?.rightEyeImage?.predicted_index);
   }, [patientEyesResult]);
 
   // useEffect(() => {
@@ -67,9 +67,9 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
                     <div className="h-full w-full blur-xl flex flex-col justify-center items-center">
                       <div className="!blur-none animate-ping rounded-full h-32 w-32 bg-[#1a0e06] opacity-100"></div>
                     </div>
-                  ) : patientProcessedEyes.leftEyeImage ? (
+                  ) : patientProcessedEyes?.leftEyeImage ? (
                     <Image
-                      src={patientProcessedEyes.leftEyeImage}
+                      src={patientProcessedEyes?.leftEyeImage}
                       style={{ objectFit: "cover" }}
                       width={64}
                       height={64}
@@ -126,9 +126,9 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
                     <div className="h-full w-full blur-xl flex flex-col justify-center items-center">
                       <div className="!blur-none animate-ping rounded-full h-32 w-32 bg-[#1a0e06] opacity-100"></div>
                     </div>
-                  ) : patientProcessedEyes.rightEyeImage ? (
+                  ) : patientProcessedEyes?.rightEyeImage ? (
                     <Image
-                      src={patientProcessedEyes.rightEyeImage}
+                      src={patientProcessedEyes?.rightEyeImage}
                       style={{ objectFit: "cover" }}
                       width={64}
                       height={64}

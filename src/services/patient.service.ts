@@ -1,9 +1,9 @@
 import { BACKEND_BASE_URL2 } from "@/config";
-import { httpDelete, httpGet, httpPost } from "./http.service";
+import { httpDelete, httpGet, httpPost, httpPut } from "./http.service";
 import { Patient } from "../../types";
 
 const URL = `${BACKEND_BASE_URL2}/api`;
-const URL2 = `http://localhost:5005/preprocess`;
+const URL2 = `https://52.87.217.114/preprocess`;
 const URL3 = `http://localhost:5002/predict`;
 
 const addPatient = async (patient: Patient) => {
@@ -14,6 +14,7 @@ const addPatient = async (patient: Patient) => {
       gender: patient.gender,
       email: patient.email,
       age: patient.age,
+      address: patient.address,
       mobile: patient.mobile,
       conditions: patient.conditions,
     });
@@ -37,6 +38,26 @@ const getAllPatient = async () => {
 const getPatientByID = async (id: string) => {
   try {
     const response = await httpGet(`${URL}/patient/${id}`);
+    const data = response?.data;
+    return data;
+  } catch (error: any) {
+    throw error?.data?.error;
+  }
+};
+
+const updatePatient = async (id: string, patient: Patient) => {
+  try {
+    const response = await httpPut(`${URL}/patient/${id}`, {
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      gender: patient.gender,
+      email: patient.email,
+      age: patient.age,
+      address: patient.address,
+      mobile: patient.mobile,
+      conditions: patient.conditions,
+    });
+
     const data = response?.data;
     return data;
   } catch (error: any) {
@@ -102,12 +123,26 @@ const preProcessImage = async (image: File) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      maxContentLength: 50 * 1024 * 1024,
     });
-    // const response = await httpPost(`${URL2}`, image);
+
+    if (!response?.data?.base64) {
+      throw new Error("Invalid response from preprocessing service");
+    }
+
     const data = response?.data;
     return data;
   } catch (error: any) {
-    throw error?.data?.error;
+    if (error.code === "ECONNREFUSED") {
+      throw new Error("Preprocessing service is not available");
+    }
+    if (error.response?.status === 413) {
+      throw new Error("Image file is too large");
+    }
+    if (error.response?.status === 415) {
+      throw new Error("Unsupported image format");
+    }
+    throw error?.data?.error || error.message || "Error processing image";
   }
 };
 
@@ -137,6 +172,7 @@ export {
   getAllPatient,
   addPatient,
   getPatientByID,
+  updatePatient,
   deletePatient,
   getPatientEyes,
   addPatientEye,

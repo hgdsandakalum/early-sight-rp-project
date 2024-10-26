@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
+import { Modal, message, Button } from "antd";
 import { addPatientEye, preProcessImage } from "@/services";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 const DRImageUpload = ({
   handleIsPatient,
@@ -15,8 +16,17 @@ const DRImageUpload = ({
   const [leftEyeImage, setLeftEyeImage] = useState(null);
   const [rightEyeImage, setRightEyeImage] = useState(null);
   const [isSubmitDisable, setIsSubmitDisable] = useState(true);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
 
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (!isQrModalOpen) {
+      setIsScanning(false);
+    } else {
+      setIsScanning(true);
+    }
+  }, [isQrModalOpen]);
 
   const handleInputChange = (e) => {
     setPatientId(e.target.value);
@@ -31,60 +41,105 @@ const DRImageUpload = ({
     }
   };
 
-  const getpatientData = (e) => {
-    e.preventDefault();
-    handleIsPatient(patientId);
-    setIsSubmitDisable(false);
+  const handleQrScan = (data) => {
+    if (data && isScanning) {
+      const scannedValue = data[0].rawValue;
+      console.log("scannedValue", scannedValue);
+      setPatientId(scannedValue);
+      handleIsPatient(scannedValue);
+      setIsScanning(false);
+      setIsQrModalOpen(false);
+      setIsSubmitDisable(false);
+      message.success("QR code scanned successfully");
+    }
+  };
+
+  const handleQrError = (err) => {
+    if (isScanning) {
+      console.error(err);
+      message.error("Failed to read QR code");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage("");
+    setErrorMessage("");
 
     if (!patientId || !leftEyeImage || !rightEyeImage) {
-      setMessage("Please fill in all fields");
+      setErrorMessage("Please fill in all fields");
       setIsLoading(false);
       return;
     }
 
     try {
-      const preProcessImageLeft = await preProcessImage(leftEyeImage);
-      const preProcessImageRight = await preProcessImage(rightEyeImage);
+      console.log("preProcessImage start");
+      let preProcessImageLeft;
+      let preProcessImageRight;
+
+      try {
+        preProcessImageLeft = await preProcessImage(leftEyeImage);
+      } catch (error) {
+        throw new Error(`Left eye image processing failed: ${error.message}`);
+      }
+
+      try {
+        preProcessImageRight = await preProcessImage(rightEyeImage);
+      } catch (error) {
+        throw new Error(`Right eye image processing failed: ${error.message}`);
+      }
+
+      console.log("preProcessImage end");
+
+      if (!preProcessImageLeft?.base64 || !preProcessImageRight?.base64) {
+        throw new Error("Invalid response from preprocessing service");
+      }
 
       const data = await addPatientEye(
         patientId,
-        preProcessImageLeft.base64,
-        preProcessImageRight.base64
+        preProcessImageLeft?.base64,
+        preProcessImageRight?.base64
       );
+      console.log("images saved on db");
 
       setPatientProcessedEyes({
-        leftEyeImage: preProcessImageLeft.base64,
-        rightEyeImage: preProcessImageRight.base64,
+        leftEyeImage: preProcessImageLeft?.base64,
+        rightEyeImage: preProcessImageRight?.base64,
       });
 
-      const predictLeft = await getPrediction(preProcessImageLeft.base64);
-      const predictRight = await getPrediction(preProcessImageRight.base64);
+      // const predictLeft = await getPrediction(preProcessImageLeft.base64);
+      // const predictRight = await getPrediction(preProcessImageRight.base64);
 
-      console.log(
-        "predictLeft",
-        predictLeft.predicted_index,
-        predictLeft.prediction_scores
-      );
+      // console.log(
+      //   "predictLeft",
+      //   predictLeft.predicted_index,
+      //   predictLeft.prediction_scores
+      // );
 
-      setPatientEyesResult({
-        leftEyeImage: predictLeft,
-        rightEyeImage: predictRight,
-      });
+      // setPatientEyesResult({
+      //   leftEyeImage: predictLeft,
+      //   rightEyeImage: predictRight,
+      // });
 
-      setMessage("Images uploaded successfully");
+      setErrorMessage("Images uploaded successfully");
       handleIsPatient(patientId);
     } catch (error) {
       console.error("Error uploading images:", error);
-      setMessage(error || "Error uploading images");
+      setErrorMessage(error || "Error uploading images");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleQrModalOpen = (e) => {
+    e.preventDefault();
+    setIsQrModalOpen(true);
+    setIsScanning(true);
+  };
+
+  const handleQrModalClose = () => {
+    setIsQrModalOpen(false);
+    setIsScanning(false);
   };
 
   return (
@@ -110,24 +165,26 @@ const DRImageUpload = ({
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={getpatientData}
-                  className="h-auto w-12 bg-primary p-3 hover:bg-slate-700"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="#ffffff"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </Button>
+                  onClick={(e) => handleQrModalOpen(e)}
+                  className="!h-12 !w-12 !bg-primary p-3 hover:bg-slate-700"
+                  htmlType="button"
+                  icon={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="#ffffff"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  }
+                ></Button>
               </div>
             </div>
 
@@ -161,12 +218,32 @@ const DRImageUpload = ({
             >
               {isLoading ? "Uploading..." : "Submit"}
             </button>
-            {message && (
-              <p className="mt-4 text-center text-sm text-red-500">{message}</p>
+            {errorMessage && (
+              <p className="mt-4 text-center text-sm text-red-500">
+                {errorMessage}
+              </p>
             )}
           </div>
         </form>
       </div>
+      <Modal
+        title="Scan QR Code"
+        open={isQrModalOpen}
+        onCancel={handleQrModalClose}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <div className="p-4 w-[500px] h-[500px]">
+          {isQrModalOpen && isScanning && (
+            <Scanner
+              onScan={(result) => handleQrScan(result)}
+              onError={handleQrError}
+              scanDelay={300}
+              style={{ width: "100%" }}
+            />
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

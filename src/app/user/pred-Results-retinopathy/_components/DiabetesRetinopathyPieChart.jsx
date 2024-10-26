@@ -23,7 +23,9 @@ const DiabetesRetinopathyPieChart = () => {
   useEffect(() => {
     const fetchDiabetesData = async () => {
       try {
-        const response = await axios.get("http://155.248.225.224:8091/diabetes-data");
+        const response = await axios.get(
+          "https://324aprj.sliit.eye.retino.zeuscorp.co/diabetes-data"
+        );
         setDiabetesData(response.data);
         calculatePieChart(response.data);
       } catch (error) {
@@ -58,7 +60,10 @@ const DiabetesRetinopathyPieChart = () => {
   };
 
   return (
-    <div className="pie-chart-container" style={{ width: "300px", height: "300px" }}>
+    <div
+      className="pie-chart-container"
+      style={{ width: "300px", height: "300px" }}
+    >
       <h3>Diabetes and Retinopathy Analysis</h3>
       <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
     </div>
