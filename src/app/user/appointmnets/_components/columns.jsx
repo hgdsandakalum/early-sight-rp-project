@@ -29,7 +29,7 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import AppointmentEditModal from "./AppointmentEditModal";
-import AppointmentViewModal from "./AppointmentViewModal"
+import AppointmentViewModal from "./AppointmentViewModal";
 
 let patientID = "";
 
@@ -114,18 +114,38 @@ export const columns = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              style={{
+                zIndex: 99999,
+                backgroundColor: "white",
+                width: 100,
+              }}
+            >
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => views(patient)}>
+              <DropdownMenuItem
+                onClick={() => views(patient)}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 <EyeIcon className="mr-2 w-5" />
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editPatient(patient)}>
+              <DropdownMenuItem
+                onClick={() => editPatient(patient)}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 <SquarePen className="mr-2 w-5" />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => removePatient(patient.subscriptionId)}
+                style={{
+                  cursor: "pointer",
+                }}
               >
                 <Trash2 className="mr-2 w-5" />
                 Remove
@@ -165,8 +185,11 @@ export const columns = [
                     await handleRemoveSubscription(patientID);
                     setIsRemoveDialog(false);
                   }}
+                  style={{
+                    color: "white",
+                  }}
                 >
-                  Yes
+                  <span className=" text-white">Yes</span>
                 </Button>
                 <DialogClose asChild>
                   <Button

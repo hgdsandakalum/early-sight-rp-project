@@ -106,14 +106,14 @@ const RegisterForm = () => {
         throw new Error(errorData.message || "Login failed");
       }
 
-      const x = await response.json()
+      const x = await response.json();
 
       const { data } = await response.json();
 
       // Store the token in localStorage or a secure cookie
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("userId", data.otherDetails._id);
-      localStorage.setItem("user", data.otherDetails);
+      localStorage.setItem("authToken", data?.token);
+      localStorage.setItem("userId", data?.otherDetails?._id);
+      localStorage.setItem("user", data?.otherDetails);
 
       // Show success message
       toast.success("Logged in successfully");
@@ -128,7 +128,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      <div className="sm:mx-auto sm:w-full sm:max-w-lg bg-red-50">
+      <div className="sm:mx-auto sm:w-full sm:max-w-lg">
         {/* <img
           className="mx-auto h-10 w-auto"
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -257,7 +257,6 @@ const RegisterForm = () => {
                   onChange={(e) => {
                     setFormData({ ...formData, gender: e });
                   }}
-            
                 />
               </div>
             </div>
@@ -298,6 +297,8 @@ const RegisterForm = () => {
               </label>
               <div className="mt-1 h-10">
                 <InputPw.Password
+                  name="password"
+                  onChange={handleChange}
                   placeholder="input password"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -311,8 +312,11 @@ const RegisterForm = () => {
             <div className="text-red-700 text-xs py-[2px]">{formError}</div>
           )}
           <div>
-            <Button type="submit" className="flex w-full justify-center">
-              Sign in
+            <Button
+              type="submit"
+              className="flex w-full justify-center text-yellow-50"
+            >
+              Sign Up
             </Button>
           </div>
         </form>

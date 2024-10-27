@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import AppointmentTable from "./_components/appointmentTable";
 import { columns } from "./_components/columns";

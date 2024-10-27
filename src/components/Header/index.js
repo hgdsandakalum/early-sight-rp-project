@@ -10,6 +10,7 @@ const Header = (props) => {
   const { sidebarOpen, setSidebarOpen } = props;
   const pathname = usePathname();
   const [pageTitle, setPageTitle] = useState("");
+  const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
     switch (pathname) {
@@ -28,6 +29,33 @@ const Header = (props) => {
       default:
         setPageTitle("Dashboard");
     }
+  }, [pathname]);
+
+  const fetchData = async () => {
+    try {
+      const docId = await localStorage.getItem("userId");
+      const response = await fetch(
+        // "https://retina-mobile-app-bankend.vercel.app/api/v1/notification/" +
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/notificaiton/" + docId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const { data } = await response.json();
+      setNotifications(data)
+    } catch (error) {}
+  };
+
+  //   fetchData()
+  useEffect(() => {
+    const result = void fetchData();
+    // // setData(result)
+
+    console.log("hey")
   }, [pathname]);
 
   return (
@@ -127,8 +155,8 @@ const Header = (props) => {
 
         <div className="flex items-center gap-5 2xsm:gap-7">
           <ul className="flex items-center gap-4 2xsm:gap-4">
-            <DropdownNotification />
-            <DropdownMessage />
+            <DropdownNotification notifications={notifications}/>
+            {/* <DropdownMessage /> */}
           </ul>
           <DropdownUser />
         </div>
