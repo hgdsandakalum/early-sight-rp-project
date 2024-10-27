@@ -9,7 +9,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const DiabetesRetinopathyPieChart = () => {
   const [diabetesData, setDiabetesData] = useState([]);
   const [pieChartData, setPieChartData] = useState({
-    labels: ["With Retinopathy", "Without Retinopathy"],
+    labels: ["Diabetes With Retinopathy", "Diabetes Without Retinopathy"],
     datasets: [
       {
         label: "Retinopathy Percentage",
@@ -47,7 +47,7 @@ const DiabetesRetinopathyPieChart = () => {
     const percentageWithoutRetinopathy = 100 - percentageWithRetinopathy;
 
     setPieChartData({
-      labels: ["With Retinopathy", "Without Retinopathy"],
+      labels: ["Diabetes With Retinopathy", "Diabetes Without Retinopathy"],
       datasets: [
         {
           label: "Retinopathy Percentage",
@@ -61,11 +61,18 @@ const DiabetesRetinopathyPieChart = () => {
 
   return (
     <div
-      className="pie-chart-container"
-      style={{ width: "300px", height: "300px" }}
+      className="pie-chart-container flex items-center justify-between space-x-4"
+      style={{ width: "100%", maxWidth: "700px", height: "300px" }}
     >
-      <h3>Diabetes and Retinopathy Analysis</h3>
-      <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
+      <div className="flex flex-col justify-center w-1/2">
+        <h2 className="text-l sm:text-xl font-semibold text-black dark:text-white text-center sm:text-left">
+          Diabetes and Retinopathy Analysis
+        </h2>
+      </div>
+
+      <div className="w-1/2" style={{ width: "350px", height: "320px" }}>
+        <Pie data={pieChartData} options={{ maintainAspectRatio: false }} />
+      </div>
     </div>
   );
 };
