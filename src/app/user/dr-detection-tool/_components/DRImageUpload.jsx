@@ -73,7 +73,6 @@ const DRImageUpload = ({
     }
 
     try {
-      console.log("preProcessImage start");
       let preProcessImageLeft;
       let preProcessImageRight;
 
@@ -107,25 +106,25 @@ const DRImageUpload = ({
         rightEyeImage: preProcessImageRight?.base64,
       });
 
-      // const predictLeft = await getPrediction(preProcessImageLeft.base64);
-      // const predictRight = await getPrediction(preProcessImageRight.base64);
+      const predictLeft = await getPrediction(preProcessImageLeft.base64);
+      const predictRight = await getPrediction(preProcessImageRight.base64);
 
-      // console.log(
-      //   "predictLeft",
-      //   predictLeft.predicted_index,
-      //   predictLeft.prediction_scores
-      // );
+      console.log(
+        "predictLeft",
+        predictLeft.predicted_index,
+        predictLeft.prediction_scores
+      );
 
-      // setPatientEyesResult({
-      //   leftEyeImage: predictLeft,
-      //   rightEyeImage: predictRight,
-      // });
+      setPatientEyesResult({
+        leftEyeImage: predictLeft,
+        rightEyeImage: predictRight,
+      });
 
       setErrorMessage("Images uploaded successfully");
       handleIsPatient(patientId);
     } catch (error) {
       console.error("Error uploading images:", error);
-      setErrorMessage(error || "Error uploading images");
+      setErrorMessage("Error uploading images");
     } finally {
       setIsLoading(false);
     }

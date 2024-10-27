@@ -76,7 +76,7 @@ const DropdownUser = () => {
           <span className=" text-xs">{user.designation}</span>
         </div>
 
-        <span className="h-12 w-12 rounded-full">
+        <span className="!h-12 !w-12 rounded-full">
           <Image
             width={112}
             height={112}

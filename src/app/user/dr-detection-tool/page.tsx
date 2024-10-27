@@ -66,13 +66,35 @@ const DRToolPage = () => {
   };
 
   const getPrediction = async (image: string) => {
+    console.log("getPrediction start");
+
     try {
-      const byteCharacters = atob(image.split(",")[1]);
+      console.log("getPrediction image", image);
+      // const byteCharacters = atob(image.split(",")[1]);
+
+      const cleanedString = image.replace(/^data:image\/\w+;base64,/, "");
+      let byteCharacters;
+      if (typeof window !== "undefined") {
+        // Client-side
+        byteCharacters = atob(cleanedString);
+      } else {
+        // Server-side
+        byteCharacters = Buffer.from(cleanedString, "base64").toString(
+          "binary"
+        );
+      }
+      console.log("getPrediction byteCharacters", byteCharacters);
+
       const byteNumbers = new Array(byteCharacters.length);
+      console.log("getPrediction byteNumbers", byteNumbers);
+
+      console.log("getPrediction 1");
 
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
+
+      console.log("getPrediction 2");
 
       const byteArray = new Uint8Array(byteNumbers);
 
@@ -81,7 +103,11 @@ const DRToolPage = () => {
 
       const file = new File([blob], "image.png", { type: "image/png" });
 
+      console.log("getPrediction 3");
+
       const data = await classifyImage(file);
+
+      console.log("getPrediction 4");
 
       return data;
     } catch (error) {
