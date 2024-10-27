@@ -31,11 +31,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  ArrowUpDown,
+  MoreHorizontal,
+  Copy,
+  SquarePen,
+  Trash2,
+  EyeIcon,
+} from "lucide-react";
+
 const formSchema = z.object({
   status: z.string({ required_error: "" }),
 });
 
-const AppointmentEditModal = ({ open, data, setIsEditDialog }) => {
+const AppointmentEditModal = ({
+  open,
+  data,
+  setIsEditDialog,
+  editPatient,
+  patient,
+}) => {
   const [patientData, setPatientData] = useState({
     name: "",
     email: "",
@@ -94,6 +109,17 @@ const AppointmentEditModal = ({ open, data, setIsEditDialog }) => {
   return (
     <>
       <Dialog open={open} onOpenChange={setIsEditDialog}>
+        <DialogTrigger
+          onClick={() => editPatient(patient)}
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            marginLeft: 6,
+          }}
+        >
+          <SquarePen className="mr-2 w-5" />
+          Edit
+        </DialogTrigger>
         <DialogContent
           className="!max-w-xl"
           style={{
@@ -253,7 +279,10 @@ const AppointmentEditModal = ({ open, data, setIsEditDialog }) => {
                     Close
                   </Button>
                 </DialogClose>
-                <Button type="submit" className="w-full text-yellow-50 mt-1 mb-1">
+                <Button
+                  type="submit"
+                  className="w-full text-yellow-50 mt-1 mb-1"
+                >
                   Submit
                 </Button>
               </DialogFooter>

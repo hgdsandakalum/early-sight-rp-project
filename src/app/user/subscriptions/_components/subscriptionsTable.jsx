@@ -28,7 +28,8 @@ const SubscriptionsTable = ({ columns }) => {
     try {
       const docId = await localStorage.getItem("userId");
       const response = await fetch(
-        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" + docId,
+        "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" +
+          docId,
         {
           method: "GET",
           headers: {
@@ -112,17 +113,6 @@ const SubscriptionsTable = ({ columns }) => {
           </svg>
         </div>
         <AddNewSubscriptionModal />
-        {/* <Dialog>
-          <PatientAddModal />
-          <DialogTrigger>
-            <Button onClick={() => setIsModalOpen(true)}>
-              <div className="flex">
-                <Plus className="mr-1" />
-                <span className="hidden sm:block">Add New Patient</span>
-              </div>
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
       </div>
       <div className="rounded-md border">
         <Table>

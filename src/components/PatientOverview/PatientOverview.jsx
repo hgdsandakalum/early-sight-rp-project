@@ -1,12 +1,12 @@
-
-"use client"
+"use client";
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import EyeComparisonChart from "@/components/EyeComparisonChart/EyeComparisonChart"
-import NearEyeComparisonChart from "@/components/NearEyeComparisonChart/NearEyeComparisonChart"
-import {columns} from "@/components/DetailedEyeResultTable/columns"
-import DetailedEyeResultTable from "@/components/DetailedEyeResultTable/DetailedEyeResultTable"
+import EyeComparisonChart from "@/components/EyeComparisonChart/EyeComparisonChart";
+import NearEyeComparisonChart from "@/components/NearEyeComparisonChart/NearEyeComparisonChart";
+import { columns } from "@/components/DetailedEyeResultTable/columns";
+import VisionSimulation from "@/components/VisionSimulation/VisionSimulation";
+import DetailedEyeResultTable from "@/components/DetailedEyeResultTable/DetailedEyeResultTable";
 const PatientOverview = () => {
   const [user, setUser] = useState({
     name: "",
@@ -19,13 +19,23 @@ const PatientOverview = () => {
     location: "",
     occupation: "",
   });
+  const [averageTestResults, setAverageTestResults] = useState({
+    leftEye: 0,
+    rightEye: 0,
+  });
 
   const fetchUserDetails = async () => {
     const urlParts = window.location.href.split("/");
     const id = urlParts[urlParts.length - 2];
 
     const userData = await axios.get(
-      "https://retina-mobile-app-bankend.vercel.app/api/v1/auth/find-by-id/" + id
+      "https://retina-mobile-app-bankend.vercel.app/api/v1/auth/find-by-id/" +
+        id
+    );
+
+    const avgresults = await axios.get(
+      "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/average-user/" +
+        id
     );
 
     function calculateAge(dob) {
@@ -49,11 +59,16 @@ const PatientOverview = () => {
         age: calculateAge(userData.data.data.date_of_birth),
       });
     }
+
+    if (avgresults.status === 200) {
+      setAverageTestResults(avgresults.data.data);
+    }
   };
 
   useEffect(() => {
     fetchUserDetails();
   }, []);
+
   return (
     <div className=" mt-10">
       <div className=" shadow-2xl px-10 py-10 rounded-lg">
@@ -103,7 +118,9 @@ const PatientOverview = () => {
       <div>
         <EyeComparisonChart />
         <NearEyeComparisonChart />
-        <DetailedEyeResultTable columns={columns}/>
+        <DetailedEyeResultTable columns={columns} />
+        <VisionSimulation  averageTestResults={averageTestResults.leftEye} eye={"Left Eye"}/> 
+        <VisionSimulation  averageTestResults={averageTestResults.rightEye} eye={"Right Eye"}/> 
       </div>
     </div>
   );

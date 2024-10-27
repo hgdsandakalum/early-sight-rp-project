@@ -123,7 +123,7 @@ export const columns = [
               }}
             >
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 onClick={() => views(patient)}
                 style={{
                   cursor: "pointer",
@@ -131,44 +131,24 @@ export const columns = [
               >
                 <EyeIcon className="mr-2 w-5" />
                 View
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => editPatient(patient)}
-                style={{
-                  cursor: "pointer",
-                }}
-              >
-                <SquarePen className="mr-2 w-5" />
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => removePatient(patient.subscriptionId)}
-                style={{
-                  cursor: "pointer",
-                }}
-              >
-                <Trash2 className="mr-2 w-5" />
-                Remove
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
+              <AppointmentViewModal
+                open={isViewingDialogOpen}
+                data={patientData}
+                setIsEditDialog={setIsViewvingDialogOpen}
+                patient={patient}
+                editPatient={views}
+              />
+
+              <AppointmentEditModal
+                open={isEditDialog}
+                data={patientData}
+                setIsEditDialog={setIsEditDialog}
+                patient={patient}
+                editPatient={editPatient}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* Edit Dialog */}
-          <AppointmentEditModal
-            open={isEditDialog}
-            data={patientData}
-            setIsEditDialog={setIsEditDialog}
-          />
-          <AppointmentViewModal
-            open={isViewingDialogOpen}
-            data={patientData}
-            setIsEditDialog={setIsViewvingDialogOpen}
-          />
-          {/* <PatientEditModal
-            open={isEditDialog}
-            data={patientData}
-            setIsEditDialog={setIsEditDialog}
-          /> */}
-          {/* Remove Dialog */}
           <Dialog open={isRemoveDialog}>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
