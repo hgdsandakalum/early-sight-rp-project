@@ -3,32 +3,68 @@ import React, { useEffect, useState, CSSProperties } from "react";
 import Image from "next/image";
 import VerticalProgress from "./VerticalProgressBar";
 
+const CLASS_NAMES = [
+  "No DR",
+  "Mild DR",
+  "Moderate DR",
+  "Severe DR",
+  "Proliferative DR",
+];
+
+const ResultPercentages = ({ scores }) => {
+  const getPercentages = () => {
+    if (!scores || !Array.isArray(scores)) return [];
+    return scores.map((score) => (parseFloat(score) * 100).toFixed(2));
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      {getPercentages().map((percentage, index) => (
+        <div key={index} className="flex justify-between items-center">
+          <span className="text-xs font-medium text-gray-700">
+            {CLASS_NAMES[index]}:
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="w-24 h-2 bg-gray-200 rounded-full">
+              <div
+                className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+            <span className="text-xs font-semibold min-w-12 text-right">
+              {percentage}%
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
   const [progressState, setProgressState] = useState(0);
   const [progressState2, setProgressState2] = useState(0);
-  const [leftEyeResult, setLeftEyeResult] = useState("");
-  const [rightEyeResult, setRightEyeResult] = useState("");
+  const [leftEyeScores, setLeftEyeScores] = useState([]);
+  const [rightEyeScores, setRightEyeScores] = useState([]);
 
   useEffect(() => {
-    if (Array.isArray(patientEyesResult.leftEyeImage.prediction_scores)) {
-      setLeftEyeResult(
-        patientEyesResult?.leftEyeImage?.prediction_scores.join(", ")
-      );
+    if (Array.isArray(patientEyesResult?.leftEyeImage?.prediction_scores)) {
+      setLeftEyeScores(patientEyesResult.leftEyeImage.prediction_scores);
     }
-    if (Array.isArray(patientEyesResult.rightEyeImage.prediction_scores)) {
-      setRightEyeResult(
-        patientEyesResult?.rightEyeImage?.prediction_scores.join(", ")
-      );
+    if (Array.isArray(patientEyesResult?.rightEyeImage?.prediction_scores)) {
+      setRightEyeScores(patientEyesResult.rightEyeImage.prediction_scores);
     }
-
-    // setProgressState(patientEyesResult.leftEyeImage.predicted_index);
-    // setProgressState2(patientEyesResult.rightEyeImage.predicted_index);
   }, [patientEyesResult]);
 
   useEffect(() => {
-    setProgressState(4);
-    setProgressState2(1);
-  }, []);
+    setProgressState(patientEyesResult?.leftEyeImage?.predicted_index ?? 4);
+    setProgressState2(patientEyesResult?.rightEyeImage?.predicted_index ?? 1);
+  }, [patientEyesResult]);
+
+  // useEffect(() => {
+  //   setProgressState(4);
+  //   setProgressState2(1);
+  // }, []);
 
   useEffect(() => {
     setProgressState(patientEyesResult?.leftEyeImage?.predicted_index);
@@ -100,7 +136,7 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
               </div>
               <div className="mt-4">
                 <div className="border-[1px] border-stroke text-red-950 px-2 py-2 rounded-lg text-xs w-full line-clamp-3 text-wrap">
-                  {leftEyeResult}
+                  <ResultPercentages scores={leftEyeScores} />
                 </div>
 
                 {/* <textarea
@@ -159,7 +195,7 @@ const DRResults = ({ patientProcessedEyes, patientEyesResult, isLoading }) => {
               </div>
               <div className="mt-4">
                 <div className="border-[1px] border-stroke text-red-950 px-2 py-2 rounded-lg text-xs w-full line-clamp-3 text-wrap">
-                  {rightEyeResult}
+                  <ResultPercentages scores={rightEyeScores} />
                 </div>
                 {/* <textarea
                   rows={3}
