@@ -8,7 +8,7 @@ import { useAppStore, useAuthStore } from "@/store";
 import { getCurrentUser } from "@/services";
 import { Loader } from "@/components/loader";
 import { redirect } from "next/navigation";
-import { generateToken, initializeMessaging, messaging } from "../firebase";
+import { generateToken, initializeMessaging } from "../firebase";
 import { onMessage } from "firebase/messaging";
 
 import { ToastContainer, toast } from 'react-toastify';
