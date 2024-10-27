@@ -36,7 +36,7 @@ const columns = [
 ];
 
 // Modal Component
-const Modal = ({ isOpen, onClose, onSubmit }) => {
+const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
   const router = useRouter();
   const [mealName, setMealName] = useState("");
   const [isBreakfast, setIsBreakfast] = useState(false);
@@ -89,9 +89,11 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
     event.preventDefault();
     const statesArray = getStates();
 
-    const result = addRecommendations(mealName, statesArray);
+    console.log("addRecommendations", mealName, statesArray);
+
+    const result = await addRecommendations(mealName, statesArray);
     onClose();
-    router.refresh();
+    fetchRecommendations();
   };
 
   const addRecommendations = async (mealName, statesArray) => {
@@ -215,7 +217,9 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               <Button onClick={onClose} variant="outline">
                 Cancel
               </Button>
-              <Button type="submit">{isSaved ? "" : ""}Add Meal</Button>
+              <Button type="submit" className="!text-white">
+                {isSaved ? "" : ""}Add Meal
+              </Button>
             </div>
           </div>
         </form>
@@ -232,17 +236,17 @@ export default function RecommendationsView() {
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
-      try {
-        const data = await getRecommendations();
-        setRecommendations(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
     fetchRecommendations();
   }, []);
+
+  const fetchRecommendations = async () => {
+    try {
+      const data = await getRecommendations();
+      setRecommendations(data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
 
   const table = useReactTable({
     data: recommendations, // Use mockData or your fetched data
@@ -379,6 +383,7 @@ export default function RecommendationsView() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddMeal}
+        fetchRecommendations={fetchRecommendations}
       />
     </div>
   );
