@@ -119,8 +119,8 @@ const PatientOverview = () => {
         <EyeComparisonChart />
         <NearEyeComparisonChart />
         <DetailedEyeResultTable columns={columns} />
-        <VisionSimulation  averageTestResults={averageTestResults.leftEye} eye={"Left EYe"}/> 
-        <VisionSimulation  averageTestResults={averageTestResults.rightEye} eye={"Right EYe"}/> 
+        <VisionSimulation  averageTestResults={averageTestResults.leftEye} eye={"Left Eye"}/> 
+        <VisionSimulation  averageTestResults={averageTestResults.rightEye} eye={"Right Eye"}/> 
       </div>
     </div>
   );
