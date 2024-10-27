@@ -110,7 +110,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="First Name" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -125,7 +127,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="Last Name" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -151,7 +155,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                           ]}
                         />
 
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -166,7 +172,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input type="number" placeholder="Age" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -181,7 +189,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="Number" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -196,7 +206,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="Email" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -211,7 +223,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="Address" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />
@@ -226,7 +240,9 @@ export const PatientAddModal: React.FC<PatientAddModalProps> = ({
                         <FormControl>
                           <Input placeholder="Conditions" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <div className="text-red-500 !text-xs">
+                          <FormMessage />
+                        </div>
                       </FormItem>
                     )}
                   />

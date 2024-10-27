@@ -49,6 +49,12 @@ const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
   const [selectedVegStatus, setSelectedVegStatus] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
 
+  const [errors, setErrors] = useState({
+    mealName: "",
+    mealType: "",
+    vegStatus: "",
+  });
+
   const calorieMap = { high: 0, low: 6 };
   const mealMap = { breakfast: 0, lunch: 1, dinner: 2 };
   const vegetarianMap = { nonVegetarian: 0, vegetarian: 3 };
@@ -85,13 +91,60 @@ const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
     return matchingStates;
   };
 
+  const resetForm = () => {
+    setMealName("");
+    setSelectedMeals([]);
+    setCalorie("high");
+    setSelectedVegStatus([]);
+    setIsSaved(false);
+    setErrors({
+      mealName: "",
+      mealType: "",
+      vegStatus: "",
+    });
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      mealName: "",
+      mealType: "",
+      vegStatus: "",
+    };
+
+    // Validate meal name
+    if (!mealName.trim()) {
+      newErrors.mealName = "Meal name is required";
+      isValid = false;
+    }
+
+    // Validate meal type selection
+    if (selectedMeals.length === 0) {
+      newErrors.mealType = "Please select at least one meal type";
+      isValid = false;
+    }
+
+    // Validate vegetarian status
+    if (selectedVegStatus.length === 0) {
+      newErrors.vegStatus = "Please select at least one vegetarian preference";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const statesArray = getStates();
 
-    console.log("addRecommendations", mealName, statesArray);
-
     const result = await addRecommendations(mealName, statesArray);
+    resetForm();
     onClose();
     fetchRecommendations();
   };
@@ -119,9 +172,15 @@ const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
               <Input
                 type="text"
                 value={mealName}
-                onChange={(e) => setMealName(e.target.value)}
+                onChange={(e) => {
+                  setMealName(e.target.value);
+                  setErrors((prev) => ({ ...prev, mealName: "" }));
+                }}
                 placeholder="Enter meal name"
               />
+              {errors.mealName && (
+                <p className="text-red-500 text-xs mt-1">{errors.mealName}</p>
+              )}
             </div>
 
             {/* Meal Type (Checkboxes) */}
@@ -155,6 +214,9 @@ const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
                 />
                 <label htmlFor="dinner">Dinner</label>
               </div>
+              {errors.mealType && (
+                <p className="text-red-500 text-xs mt-1">{errors.mealType}</p>
+              )}
             </div>
 
             {/* Calorie Type (Radio Buttons) */}
@@ -210,6 +272,9 @@ const Modal = ({ isOpen, onClose, onSubmit, fetchRecommendations }) => {
                 />
                 <label htmlFor="nonVegetarian">Non Vegetarian</label>
               </div>
+              {errors.vegStatus && (
+                <p className="text-red-500 text-xs mt-1">{errors.vegStatus}</p>
+              )}
             </div>
 
             {/* Submit Button */}
