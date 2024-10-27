@@ -14,7 +14,7 @@ import {
   Copy,
   SquarePen,
   Trash2,
-  EyeIcon
+  EyeIcon,
 } from "lucide-react";
 import {
   Dialog,
@@ -113,7 +113,8 @@ export const columns = [
       const handleRemoveSubscription = async (id) => {
         try {
           const response = await fetch(
-            "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" + id,
+            "https://retina-mobile-app-bankend.vercel.app/api/v1/doctor/subscriptions/" +
+              id,
             {
               method: "DELETE",
               headers: {
@@ -122,13 +123,13 @@ export const columns = [
             }
           );
           const { data } = await response.json();
-          window.location.reload()
+          window.location.reload();
         } catch (error) {}
       };
       const router = useRouter();
       const views = (patient) => {
-        router.push("/user/viewPatient/"+patient.pId);
-      }
+        router.push("/user/viewPatient/" + patient.pId);
+      };
       return (
         <>
           <DropdownMenu>
@@ -138,20 +139,40 @@ export const columns = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              style={{
+                zIndex: 99999,
+                backgroundColor: "white",
+                width: 100,
+              }}
+            >
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => views(patient)}>
+              <DropdownMenuItem
+                onClick={() => views(patient)}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 <EyeIcon className="mr-2 w-5" />
                 View
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editPatient(patient)}>
-                <SquarePen className="mr-2 w-5" />
+              <DropdownMenuItem
+                onClick={() => editPatient(patient)}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                <SquarePen className="mr-2 w-5 cursor-pointer" />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => removePatient(patient.subscriptionId)}
+                style={{
+                  cursor: "pointer",
+                }}
               >
-                <Trash2 className="mr-2 w-5" />
+                <Trash2 className="mr-2 w-5 cursor-pointer" />
                 Remove
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -164,7 +185,12 @@ export const columns = [
           />
           {/* Remove Dialog */}
           <Dialog open={isRemoveDialog}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md" style={{
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            zIndex: 9999,
+            }}>
               <DialogHeader>
                 <DialogTitle>Remove Patients Subscription</DialogTitle>
                 <DialogDescription>
@@ -176,8 +202,11 @@ export const columns = [
                 <Button
                   type="button"
                   onClick={async () => {
-                    await handleRemoveSubscription(patientID)
+                    await handleRemoveSubscription(patientID);
                     setIsRemoveDialog(false);
+                  }}
+                  style={{
+                    color: "white",
                   }}
                 >
                   Yes

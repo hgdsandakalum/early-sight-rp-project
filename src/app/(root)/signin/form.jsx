@@ -7,6 +7,7 @@ import { Button } from "../../../components/ui/button";
 import retinacarelogo from "@/assets/img/retinacarelogo.png";
 import { toast } from "sonner";
 import { Tabs } from "antd";
+import { generateToken } from "@/firebase";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -67,6 +68,7 @@ const LoginForm = () => {
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userId", data.otherDetails._id);
         localStorage.setItem("user", data.otherDetails);
+        generateToken()
       } else {
         const { token, userId } = await response.json();
         localStorage.setItem("authToken", token);

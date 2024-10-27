@@ -51,6 +51,7 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
     resolver: zodResolver(formSchema),
   });
 
+  console.log("data ", data);
   useEffect(() => {
     let conditionString = "";
     let genderString = "";
@@ -70,7 +71,7 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
     }
 
     setPatientData({
-      name: data.patientName,
+      name: data.name,
       email: data.email,
       gender: genderString,
       age: data.age ?? 25,
@@ -86,225 +87,244 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
 
   return (
     <>
-      <Dialog open={open}>
-        <DialogContent className="!max-w-xl">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <DialogHeader>
-                <DialogTitle className="!text-xl">
-                  Edit Patient Details
-                </DialogTitle>
-                <DialogDescription className="py-4">
-                  <div className="grid grid-cols-4 gap-4">
-                    <div className="col-span-4">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        defaultValue={patientData.name}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Name
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Name"
-                                {...field}
-                                className={
-                                  form.formState.errors.name && "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-1">
-                      <FormField
-                        control={form.control}
-                        name="gender"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Gender
-                            </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={patientData.gender}
-                            >
+      <Dialog open={open} onOpenChange={setIsEditDialog}>
+        <div>
+          <DialogContent
+            className="!max-w-xl"
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+            }}
+          >
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <DialogHeader>
+                  <DialogTitle className="!text-xl">
+                    Edit Patient Details
+                  </DialogTitle>
+                  <DialogDescription className="py-4">
+                    <div className="grid grid-cols-4 gap-4">
+                      <div className="col-span-4">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          defaultValue={patientData.name}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Name
+                              </FormLabel>
                               <FormControl>
-                                <SelectTrigger className="text-black">
-                                  <SelectValue placeholder="Gender" />
-                                </SelectTrigger>
+                                <Input
+                                  placeholder="Name"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.name &&
+                                    "border-red-600"
+                                  }
+                                />
                               </FormControl>
-                              <SelectContent className="z-[99999] ">
-                                <SelectItem value="male" className="text-black">
-                                  Male
-                                </SelectItem>
-                                <SelectItem
-                                  value="female"
-                                  className="text-black"
-                                >
-                                  Female
-                                </SelectItem>
-                                <SelectItem
-                                  value="other"
-                                  className="text-black"
-                                >
-                                  Other
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <FormField
+                          control={form.control}
+                          name="gender"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Gender
+                              </FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={patientData.gender}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="text-black">
+                                    <SelectValue placeholder="Gender" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="z-[99999] ">
+                                  <SelectItem
+                                    value="male"
+                                    className="text-black"
+                                  >
+                                    Male
+                                  </SelectItem>
+                                  <SelectItem
+                                    value="female"
+                                    className="text-black"
+                                  >
+                                    Female
+                                  </SelectItem>
+                                  <SelectItem
+                                    value="other"
+                                    className="text-black"
+                                  >
+                                    Other
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-1">
+                        <FormField
+                          control={form.control}
+                          name="age"
+                          defaultValue={patientData.age}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Age
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="number"
+                                  placeholder="Age"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.age &&
+                                    "border-red-600"
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <FormField
+                          control={form.control}
+                          name="number"
+                          defaultValue={patientData.number}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Number
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Number"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.number &&
+                                    "border-red-600"
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          defaultValue={patientData.email}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Email
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Email"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.email &&
+                                    "border-red-600"
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <FormField
+                          control={form.control}
+                          name="address"
+                          defaultValue={patientData.address}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Address
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Address"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.address &&
+                                    "border-red-600"
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <FormField
+                          control={form.control}
+                          name="conditions"
+                          defaultValue={patientData.conditions}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-black">
+                                Patient Conditions
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Conditions"
+                                  {...field}
+                                  className={
+                                    form.formState.errors.conditions &&
+                                    "border-red-600"
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                    <div className="col-span-1">
-                      <FormField
-                        control={form.control}
-                        name="age"
-                        defaultValue={patientData.age}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Age
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="Age"
-                                {...field}
-                                className={
-                                  form.formState.errors.age && "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <FormField
-                        control={form.control}
-                        name="number"
-                        defaultValue={patientData.number}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Number
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Number"
-                                {...field}
-                                className={
-                                  form.formState.errors.number &&
-                                  "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        defaultValue={patientData.email}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Email
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Email"
-                                {...field}
-                                className={
-                                  form.formState.errors.email &&
-                                  "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <FormField
-                        control={form.control}
-                        name="address"
-                        defaultValue={patientData.address}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Address
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Address"
-                                {...field}
-                                className={
-                                  form.formState.errors.address &&
-                                  "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <FormField
-                        control={form.control}
-                        name="conditions"
-                        defaultValue={patientData.conditions}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-black">
-                              Patient Conditions
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Conditions"
-                                {...field}
-                                className={
-                                  form.formState.errors.conditions &&
-                                  "border-red-600"
-                                }
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter className="flex !justify-between">
-                <DialogClose className="w-full">
-                  <Button
-                    className="w-full bg-slate-300 text-black hover:text-white"
-                    onClick={() => setIsEditDialog(false)}
-                  >
-                    Close
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="flex !justify-between">
+                  <DialogClose className="w-full">
+                    <Button
+                      className="w-full bg-slate-300 text-black hover:text-white"
+                      onClick={() => setIsEditDialog(false)}
+                    >
+                      Close
+                    </Button>
+                  </DialogClose>
+                  <Button type="submit" className="w-full">
+                    Submit
                   </Button>
-                </DialogClose>
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
+                </DialogFooter>
+              </form>
+            </Form>
+          </DialogContent>
+        </div>
       </Dialog>
     </>
   );
