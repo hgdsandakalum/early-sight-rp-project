@@ -32,6 +32,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  ArrowUpDown,
+  MoreHorizontal,
+  Copy,
+  SquarePen,
+  Trash2,
+  EyeIcon,
+} from "lucide-react";
 
 const formSchema = z.object({
   name: z.string({ required_error: "" }),
@@ -43,7 +51,13 @@ const formSchema = z.object({
   conditions: z.string({ required_error: "" }),
 });
 
-export function PatientEditModal({ open, data, setIsEditDialog }) {
+export function PatientEditModal({
+  open,
+  data,
+  setIsEditDialog,
+  editPatient,
+  patient,
+}) {
   const [patientData, setPatientData] = useState([]);
 
   const form = useForm({
@@ -86,8 +100,19 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
   }
 
   return (
-    <>
+    <div>
       <Dialog open={open} onOpenChange={setIsEditDialog}>
+        <DialogTrigger
+          onClick={() => editPatient(patient)}
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            marginLeft: 6,
+          }}
+        >
+          <SquarePen className="mr-2 w-5 cursor-pointer" />
+          Edit
+        </DialogTrigger>
         <div>
           <DialogContent
             className="!max-w-xl"
@@ -96,7 +121,6 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              zIndex: 9999,
             }}
           >
             <Form {...form}>
@@ -326,6 +350,6 @@ export function PatientEditModal({ open, data, setIsEditDialog }) {
           </DialogContent>
         </div>
       </Dialog>
-    </>
+    </div>
   );
 }
