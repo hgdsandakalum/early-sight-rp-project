@@ -129,7 +129,7 @@ const DiabetesTable = () => {
       curve: "smooth",
     },
     title: {
-      text: "Comparison of Diabetes Data",
+      text: "How does the variability of diabatic processes affect deviations?",
       align: "left",
     },
     xaxis: {
@@ -177,7 +177,7 @@ const DiabetesTable = () => {
   return (
     <>
       <div>
-        <h2>Diabetes Data</h2>
+        <h2 className="text-l sm:text-xl font-semibold text-black dark:text-white">Diabetes Data</h2>
         <div className="flex items-center justify-between py-4">
           <Input
             placeholder="Search"
