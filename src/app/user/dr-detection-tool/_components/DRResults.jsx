@@ -27,7 +27,7 @@ const ResultPercentages = ({ scores }) => {
           <div className="flex items-center gap-2">
             <div className="w-24 h-2 bg-gray-200 rounded-full">
               <div
-                className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                className="h-full bg-[#6b6e75] rounded-full transition-all duration-300"
                 style={{ width: `${percentage}%` }}
               />
             </div>
