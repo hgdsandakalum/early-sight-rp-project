@@ -8,7 +8,7 @@ import { useAppStore, useAuthStore } from "@/store";
 import { getCurrentUser } from "@/services";
 import { Loader } from "@/components/loader";
 import { redirect } from "next/navigation";
-import { generateToken, messaging } from "../firebase";
+import { generateToken, initializeMessaging, messaging } from "../firebase";
 import { onMessage } from "firebase/messaging";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -67,12 +67,18 @@ function RootLayout({ children }: RootLayoutProps) {
   }, [user]);
 
   useEffect(() => {
-    generateToken();
-    onMessage(messaging, (payload) => {
-      toast(payload.notification?.body);
-      console.log("payload ", payload);
-    });
+    const initMessaging = async () => {
+      const messaging = await initializeMessaging();
+      if (messaging) {
+        onMessage(messaging, (payload) => {
+          toast(payload.notification?.body);
+          console.log("payload ", payload);
+        });
+      }
+    };
+    initMessaging();
   }, []);
+
   return (
     <html lang="en" className="h-full bg-white">
       <head>

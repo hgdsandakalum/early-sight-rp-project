@@ -174,13 +174,13 @@ const EyeComparisonChart = () => {
     const url =
       "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/user-stats/" +
       id +
-      `?month=${new Date().getMonth()}&year=${new Date().getFullYear}`;
+      `?month=${new Date().getMonth() + 1}&year=${new Date().getFullYear}`;
 
       console.log(url)
     const userData = await axios.get(
       "https://retina-mobile-app-bankend.vercel.app/api/v1/test-results/user-stats/" +
         id +
-        `?month=${new Date().getMonth()}&year=${new Date().getFullYear()}`
+        `?month=${new Date().getMonth() + 1}&year=${new Date().getFullYear()}`
     );
 
     if (userData.status === 200) {
