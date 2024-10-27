@@ -496,7 +496,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Clinical Trials Section
+                  Community Section
                 </Link>
               </li>
 

@@ -158,7 +158,7 @@ const RetinopathyPredictTable = () => {
       curve: "smooth",
     },
     title: {
-      text: "Comparison of Retinopathy Data",
+      text: "How does the variability of retinopathy affect deviation?",
       align: "left",
     },
     xaxis: {
@@ -210,7 +210,9 @@ const RetinopathyPredictTable = () => {
   return (
     <>
       <div>
-        <h2>Retinopathy Data</h2>
+        <h2 className="text-l sm:text-xl font-semibold text-black dark:text-white">
+        Retinopathy Data and Comparison
+          </h2>
         <div className="flex items-center justify-between py-4">
           <Input
             placeholder="Search"
@@ -290,9 +292,9 @@ const RetinopathyPredictTable = () => {
 
         {/* Line chart section for comparison */}
         <div className="rounded-sm border border-stroke bg-white px-5 pb-5 pt-7 drop-shadow-md mt-8">
-          <h5 className="text-l sm:text-xl font-semibold text-black dark:text-white">
+          <h2 className="text-l sm:text-xl font-semibold text-black dark:text-white">
             Comparison of Retinopathy Data
-          </h5>
+          </h2>
           <div>
             <div id="comparisonChart">
               <ReactApexChart
